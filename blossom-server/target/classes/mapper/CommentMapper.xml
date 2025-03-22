@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.mapper.CommentMapper">
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into comment(user_id,flower_id,rating,content,create_time)
+        values(#{userId},#{flowerId},#{rating},#{content},#{createTime})
+    </insert>
+
+    <select id="pageQuery" resultType="com.blossom.entity.Comment">
+        select * from comment
+        <where>
+            <if test="flowerId!=null">
+                and flower_id=#{flowerId}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+</mapper>

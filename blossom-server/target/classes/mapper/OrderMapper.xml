@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.mapper.OrderMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into orders
+        (id, number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark, phone, address, consignee, cancel_reason, rejection_reason, cancel_time, estimated_delivery_time, delivery_status, delivery_time, pack_amount, tableware_number, tableware_status)
+        values
+        (#{id},#{number},#{status},#{userId},#{addressBookId},#{orderTime},#{checkoutTime},#{payMethod},#{payStatus},#{amount},#{remark},#{phone},#{address},#{consignee},#{cancelReason},#{rejectionReason},#{cancelTime},#{estimatedDeliveryTime},#{deliveryStatus},#{deliveryTime},#{packAmount},#{tablewareNumber},#{tablewareStatus})
+    </insert>
+
+    <update id="update">
+        update orders
+        <set>
+            <if test="status != null">status = #{status},</if>
+            <if test="payStatus != null">pay_status = #{payStatus},</if>
+            <if test="deliveryStatus != null">delivery_status = #{deliveryStatus},</if>
+            <if test="cancelTime != null">cancel_time = #{cancelTime},</if>
+            <if test="deliveryTime != null">delivery_time = #{deliveryTime},</if>
+            <if test="cancelReason != null">cancel_reason = #{cancelReason},</if>
+            <if test="rejectionReason != null">rejection_reason = #{rejectionReason},</if>
+            <if test="estimatedDeliveryTime != null">estimated_delivery_time = #{estimatedDeliveryTime},</if>
+            <if test="tablewareStatus != null">tableware_status = #{tablewareStatus},</if>
+            <if test="tablewareNumber != null">tableware_number = #{tablewareNumber},</if>
+            <if test="packAmount != null">pack_amount = #{packAmount},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="payMethod != null">pay_method = #{payMethod},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="consignee != null">consignee = #{consignee},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="checkoutTime != null">checkout_time = #{checkoutTime},</if>
+            <if test="orderTime != null">order_time = #{orderTime},</if>
+            <if test="addressBookId != null">address_book_id = #{addressBookId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="number != null">number = #{number},</if>
+        </set>
+    </update>
+
+    <select id="sumByMap" resultType="java.lang.Double">
+        select sum(amount) from orders  <!--将每个orders的amount查询出来，并通过sum函数累加起来-->
+        <where>
+            <if test="begin !=null">       <!--begin作为一个键，对应的是map中的beginTime值，所以这里相当于#{beginTime}-->
+                and order_time &gt; #{begin}  <!--#{}里的值对应Map的key-->
+            </if>                          <!--&gt表示大于  &lt表示小于-->
+            <if test="end !=null">
+                and order_time &lt; #{end}
+            </if>
+            <if test="status!=null">
+                and status = #{status}  <!--传入的状态是‘已完成’状态-->
+            </if>
+        </where>
+    </select>
+
+    <select id="countByMap" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="begin !=null">
+                and order_time &gt; #{begin}
+            </if>
+            <if test="end !=null">
+                and order_time &lt; #{end}
+            </if>
+            <if test="status!=null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSalesTop10" resultType="com.blossom.dto.GoodsSalesDTO">
+        select od.name,sum(od.order_number) number from order_detail od,orders o
+        where od.order_id=o.id and o.status=5
+        <if test="begin!=null">
+            and o.order_time &gt; #{begin}
+        </if>
+        <if test="begin!=null">
+            and o.order_time &lt; #{end}
+        </if>
+        group by od.name
+        order by number desc
+        limit 0,10
+    </select>
+
+</mapper>

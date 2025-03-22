@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.mapper.FlowerMapper">
+
+    <!--useGeneratedKeys="true"表示插入数据后，能够得到该数据的主键值-->
+    <!--keyProperty="id"表示将刚刚插入数据的主键值设置到dish对象的id属性中-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into flower(name, category_id, price, image, description, status, create_time, update_time, create_user, update_user)
+        values (#{name},#{categoryId},#{price},#{image},#{description},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser})
+    </insert>
+
+    <select id="pageQuery" resultType="com.blossom.vo.FlowerVO">
+        select f.*,c.name as categoryName from flower f left outer join category c on d.category_id=c.id
+        <where>
+            <if test="name!=null">
+                and f.name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId!=null">
+                and f.category_id=#{categoryId}
+            </if>
+            <if test="status!=null">
+                and f.status=#{status}
+            </if>
+        </where>
+        order by f.create_time desc
+    </select>
+
+
+    <update id="update">
+        update flower
+        <set>
+            <if test="name!=null">name=#{name},</if>
+            <if test="categoryId!=null">category_id=#{categoryId},</if>
+            <if test="price!=null">price=#{price},</if>
+            <if test="image!=null">image=#{image},</if>
+            <if test="description!=null">description=#{description},</if>
+            <if test="status!=null">status=#{status},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--resultType是返回类型，parameterType是传入参数的类型-->
+    <select id="list" resultType="Flower" parameterType="Flower">
+        select * from flower
+        <where>
+            <if test="name != null">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+
+</mapper>
