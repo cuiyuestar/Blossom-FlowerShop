@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blossom.mapper.ActivityMapper">
+
+    <select id="pageQuery" resultType="com.blossom.entity.Activity">
+        select * from activity
+        <where>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into activity(start_time,end_time,status,contant,limit_per,create_time,update_time)
+        values(#{startTime},#{endTime},#{status},#{contant},#{limitPer},#{createTime},#{updateTime})
+    </insert>
+
+
+    <update id="batchExpireActivities">
+        update activity set status = 0
+        where status = 1 and end_time &lt; CURRENT_TIMESTAMP
+    </update>
+    
+
+
+</mapper>

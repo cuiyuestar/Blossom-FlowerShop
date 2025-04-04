@@ -9,6 +9,4 @@ public class ShoppingCartDTO implements Serializable {
 
     private Long flowerId;
 
-
-
 }

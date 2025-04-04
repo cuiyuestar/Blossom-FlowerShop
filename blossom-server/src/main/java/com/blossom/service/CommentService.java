@@ -4,6 +4,7 @@ import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
 import com.blossom.dto.FlowerDTO;
 import com.blossom.dto.FlowerPageQueryDTO;
+import com.blossom.entity.Comment;
 import com.blossom.entity.Flower;
 import com.blossom.result.PageResult;
 import com.blossom.vo.CommentVO;
@@ -33,4 +34,16 @@ public interface CommentService {
      * @return
      */
     PageResult pageQuery(CommentPageQueryDTO commentPageQueryDTO);
+
+    /**
+     * 根据用户id查询用户自己的评论
+     * @param userId
+     * @return
+     */
+    List<Comment> listByUserId(Long userId);
+
+    /**
+     * 点赞评论
+     */
+    void like(Long commentId);
 }

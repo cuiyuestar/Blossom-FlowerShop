@@ -1,9 +1,13 @@
 package com.blossom.controller.user;
 
+import com.blossom.constant.RedisConstants;
 import com.blossom.constant.StatusConstant;
+import com.blossom.dto.FlowerPageQueryDTO;
 import com.blossom.entity.Flower;
+import com.blossom.result.PageResult;
 import com.blossom.result.Result;
 import com.blossom.service.FlowerService;
+import com.blossom.utils.RedisClient;
 import com.blossom.vo.FlowerVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,30 +29,32 @@ public class FlowerController {
     private FlowerService flowerService;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private RedisClient redisClient;
 
     /**
      * 根据分类id查询鲜花
      * @param categoryId
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("/getByCategoryId")
     @ApiOperation("根据分类id查询鲜花")
-    public Result<List<FlowerVO>> list(Long categoryId) {
-        //构造key,规则:flower_分类id
-        String key="flower_"+categoryId;
-        //查询redis中是否存在鲜花
-        List<FlowerVO> list= (List<FlowerVO>) redisTemplate.opsForValue().get(key);
-        //如果存在，则直接返回缓存数据
-        if(list!=null&&list.size()>0){
-            return Result.success(list);
-        }
-        //如果不存在，则查询数据库，并将查询到的菜品数据缓存到redis中
-        Flower flower = new Flower();
-        flower.setCategoryId(categoryId);
-        flower.setStatus(StatusConstant.ENABLE);//查询起售中的鲜花
-        list = flowerService.listWithFlavor(flower);
-        redisTemplate.opsForValue().set(key,list);//将数据存入缓存
+    public Result<List<FlowerVO>> getByCategoryId(Long categoryId) {
+        List<FlowerVO> list =flowerService.getByCategoryId(categoryId);
         return Result.success(list);
+    }
+
+
+    /**
+     * 分页查询鲜花
+     * @param flowerPageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation("分页查询鲜花") //将鲜花名写入dto，然后传到后端，用mapper层的万能条件查询方法进行查询
+    public Result<PageResult> pageQuery(FlowerPageQueryDTO flowerPageQueryDTO) {
+        PageResult page =flowerService.pageQuery(flowerPageQueryDTO);
+        return Result.success(page);
     }
 
 

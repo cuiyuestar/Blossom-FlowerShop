@@ -19,4 +19,15 @@
         order by create_time desc
     </select>
 
+    <select id="list" resultType="com.blossom.entity.Comment">
+        select * from comment
+        <where>
+            <if test="userId!=null">
+                and user_id=#{userId}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+
 </mapper>

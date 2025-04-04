@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * 菜品
+ * 评论
  */
 @Data
 @Builder
@@ -36,6 +36,12 @@ public class Comment implements Serializable {
 
     //创建时间
     private LocalDateTime createTime;
+
+    //点赞数
+    private int likeCount;
+
+    //回复数
+    private int replyCount;
 
 
 

@@ -15,7 +15,7 @@ public class FlowerDTO implements Serializable {
     private String name;
     //鲜花分类id
     private Long categoryId;
-    //菜品价格
+    //鲜花价格
     private BigDecimal price;
     //图片
     private String image;

@@ -24,4 +24,8 @@ public class MessageConstant {
     public static final String ORDER_STATUS_ERROR = "订单状态错误";
     public static final String ORDER_NOT_FOUND = "订单不存在";
     public static final String ALREADY_EXISTS = "已存在";
+    public static final String ACTIVITY_ISEXIST = "活动不存在或已结束";
+    public static final String OUT_OF_STOCK = "库存不足";
+    public static final String EXCEED_PER_LIMIT = "超出购买数量限制";
+
 }

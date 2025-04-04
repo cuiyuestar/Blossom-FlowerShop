@@ -1,6 +1,7 @@
 package com.blossom.mapper;
 
 
+import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
 import com.blossom.entity.Comment;
 import com.blossom.entity.Flower;
@@ -8,6 +9,9 @@ import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 @Mapper
 public interface CommentMapper {
@@ -44,4 +48,25 @@ public interface CommentMapper {
      * @return
      */
     Page<Comment> pageQuery(CommentPageQueryDTO commentPageQueryDTO);
+
+    /**
+     * 条件查询评论
+     * @param commentDTO
+     * @return
+     */
+    List<Comment> list(Long commentDTO);
+
+    /**
+     * 增加评论点赞数
+     * @param commentId
+     */
+    @Update("update comment set like_count=like_count+1 where id=#{commentId}")
+    void increase(Long commentId);
+
+    /**
+     * 减少评论点赞数
+     * @param commentId
+     */
+    @Update("update comment set like_count=like_count-1 where id=#{commentId}")
+    void decrease(Long commentId);
 }

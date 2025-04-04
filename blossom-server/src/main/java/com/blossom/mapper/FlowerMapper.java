@@ -16,7 +16,7 @@ import java.util.List;
 public interface FlowerMapper {
 
     /**
-     * 根据分类id查询菜品数量
+     * 根据分类id查询鲜花数量
      * @param categoryId
      * @return
      */
@@ -24,7 +24,7 @@ public interface FlowerMapper {
     Integer countByCategoryId(Long categoryId);
 
     /**
-     * 插入菜品数据
+     * 插入鲜花数据
      * @param dish
      */
     @AutoFill(value= OperationType.INSERT)
@@ -32,7 +32,7 @@ public interface FlowerMapper {
 
 
     /**
-     * 分页查询菜品
+     * 分页查询鲜花
      * @param flowerPageQueryDTO
      * @return
      */

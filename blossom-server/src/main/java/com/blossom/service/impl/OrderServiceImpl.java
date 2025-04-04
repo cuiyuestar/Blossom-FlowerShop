@@ -4,10 +4,14 @@ import com.blossom.constant.MessageConstant;
 import com.blossom.context.BaseContext;
 import com.blossom.dto.OrdersSubmitDTO;
 import com.blossom.entity.*;
+import com.blossom.enumeration.OrderChainMarkEnum;
 import com.blossom.exception.AddressBookBusinessException;
+import com.blossom.framework.designPattern.designpattern.chain.AbstractChainContext;
 import com.blossom.mapper.*;
 import com.blossom.service.OrderService;
 import com.blossom.vo.OrderSubmitVO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
@@ -29,6 +35,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserMapper userMapper;
 
+    private final AbstractChainContext<OrdersSubmitDTO> orderSubmitAbstractChainContext;
+    private final AbstractChainContext<OrderDetail> orderDetailAbstractChainContext;
+
 
     /**
      * 订单提交
@@ -36,6 +45,8 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     public OrderSubmitVO submit(OrdersSubmitDTO ordersSubmitDTO) {
+        //责任链校验订单数据
+        orderSubmitAbstractChainContext.handler(OrderChainMarkEnum.ORDER_SUBMIT_FILTER.name(),ordersSubmitDTO);
         //处理各种业务异常（地址簿为空、购物车为空）
         AddressBook addressBook=addressBookMapper.getById(ordersSubmitDTO.getAddressBookId());
         if(addressBook==null){
@@ -68,6 +79,10 @@ public class OrderServiceImpl implements OrderService {
         for(ShoppingCart cart:shoppingCartList){ //遍历购物车集合里的商品数据
             OrderDetail orderDetail=new OrderDetail();
             BeanUtils.copyProperties(cart,orderDetail);
+
+            //责任链校验订单明细数据
+            orderDetailAbstractChainContext.handler(OrderChainMarkEnum.ORDER_DETAIL_FILTER.name(),orderDetail);
+
             orderDetail.setOrderId(orders.getId()); //设置订单明细所关联的订单的id
             orderDetailList.add(orderDetail);
         }

@@ -1,11 +1,13 @@
 package com.blossom.dto;
 
+
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 public class FlowerPageQueryDTO implements Serializable {
+
 
     private int page;
 

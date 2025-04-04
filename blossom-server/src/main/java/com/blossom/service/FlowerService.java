@@ -53,10 +53,20 @@ public interface FlowerService {
      */
     List<Flower> list(Long categoryId);
 
+
+
     /**
      * 条件查询菜品和口味
      * @param flower
      * @return
      */
-    List<FlowerVO> listWithFlavor(Flower flower);
+    List<FlowerVO> query(Flower flower);
+
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
+    List<FlowerVO> getByCategoryId(Long categoryId);
+
 }

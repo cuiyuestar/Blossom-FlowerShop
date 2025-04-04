@@ -47,7 +47,7 @@ public class FlowerController {
         /*由于新增鲜花后发生变化的是分类（比如我在‘玫瑰’分类中新增一种花，原本的‘玫瑰’分类缓存里是没有这种新花的数据的，所以要清空分类缓存
         防止缓存不一致）
         因此要用分类id作为key*/
-        String key="dish_"+flowerDTO.getCategoryId();
+        String key="flower_"+flowerDTO.getCategoryId();
         cleanCache(key);
         return Result.success();
     }
@@ -76,7 +76,7 @@ public class FlowerController {
         log.info("批量删除鲜花:{}",ids);
         flowerService.deleteBatch(ids);
         //清除所有被删除的鲜花的缓存
-        cleanCache("dish_*");
+        cleanCache("flower_*");
         return Result.success();
     }
 
@@ -105,7 +105,7 @@ public class FlowerController {
         flowerService.updateWithFlavor(flowerDTO);
 
         //将所有鲜花的缓存清空
-        cleanCache("dish_*");
+        cleanCache("flower_*");
 
         return Result.success();
     }
@@ -124,12 +124,13 @@ public class FlowerController {
     }
 
 
+
     /**
      * 清理缓存
      * @param pattern
      */
     private void cleanCache(String pattern){
-        Set keys=redisTemplate.keys(pattern);//获取所有以dish_开头的key，放入keys集合中
+        Set keys=redisTemplate.keys(pattern);//获取所有以flower_开头的key，放入keys集合中
         redisTemplate.delete(keys);
     }
 
