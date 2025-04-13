@@ -14,9 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlowerVO implements Serializable {
+public class ActivitySaleVO implements Serializable {
 
-    private Long id;
     //鲜花名称
     private String name;
     //分类id
@@ -29,9 +28,9 @@ public class FlowerVO implements Serializable {
     private String description;
     //0 停售 1 起售
     private Integer status;
-    //更新时间
-    private LocalDateTime updateTime;
-    //分类名称
-    private String categoryName;
+
+    private BigDecimal originalPrice;
+
+    private BigDecimal discountPrice;
 
 }

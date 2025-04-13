@@ -9,6 +9,7 @@ import com.blossom.result.PageResult;
 import com.blossom.result.Result;
 import com.blossom.service.CommentService;
 import com.blossom.service.FlowerService;
+import com.blossom.vo.CommentVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -68,11 +70,19 @@ public class CommentController {
         return Result.success(pageResult);
     }
 
+    @GetMapping("/{flowerId}")
+    @ApiOperation("根据鲜花id查询这种花的评论——展示给用户，包含是否点赞的状态，便于前端显示点赞键是否上色")
+    public Result<List<CommentVO>> listComment(@PathVariable Long flowerId){
+        List<CommentVO> commentList=commentService.listByFlowerId(flowerId);
+        return Result.success(commentList);
+    }
+
+
     /**
      * 查询用户自己的评论 （用户自身评论数较少，可直接返回评论集合list）
      * @return
      */
-    @GetMapping("/list-common")
+    @GetMapping("/list-own-comment")
     @ApiOperation("查询用户自己的评论")
     public Result<List<Comment>> listByUserId() {
         Long userId=BaseContext.getCurrentId();
@@ -91,4 +101,18 @@ public class CommentController {
         commentService.like(commentId);
         return Result.success();
     }
+
+    /**
+     * 根据点赞量分页查询评论
+     * @param commentPageQueryDTO
+     * @return
+     */
+    @GetMapping("/list-by-likecount")
+    @ApiOperation("根据点赞量分页查询评论")
+    public Result<PageResult> listByLikeCount(CommentPageQueryDTO commentPageQueryDTO){
+        PageResult pageResult = commentService.pageQueryByLikeCount(commentPageQueryDTO);
+        return Result.success(pageResult);
+    }
+
+
 }

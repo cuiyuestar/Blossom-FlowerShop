@@ -2,6 +2,7 @@ package com.blossom.mapper;
 
 
 import com.blossom.entity.UserComment;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -20,7 +21,7 @@ public interface UserCommentMapper {
       * @param userId
       * @return
       */
-     @Select("select status from user_comment where comment_id=#{commentId} and user_id=#{userId}")
+     @Select("select * from user_comment where comment_id=#{commentId} and user_id=#{userId}")
      UserComment getByCommentIdAndUserId(Long commentId, Long userId);
 
 
@@ -29,5 +30,6 @@ public interface UserCommentMapper {
       * @param commentId
       * @param userId
       */
+     @Delete("delete from user_comment where comment_id=#{commentId} and user_id=#{userId}")
      void delete(Long commentId, Long userId);
 }

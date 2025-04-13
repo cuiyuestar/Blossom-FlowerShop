@@ -69,7 +69,7 @@
     </select>
 
     <select id="getSalesTop10" resultType="com.blossom.dto.GoodsSalesDTO">
-        select od.name,sum(od.order_number) number from order_detail od,orders o
+        select od.name,sum(od.number) number from order_detail od,orders o
         where od.order_id=o.id and o.status=5
         <if test="begin!=null">
             and o.order_time &gt; #{begin}

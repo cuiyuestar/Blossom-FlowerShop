@@ -22,5 +22,15 @@
         </foreach>
     </update>
 
+    <select id="pageQuery" resultType="com.blossom.entity.ActivitySale">
+        select * from activity_sale
+        <where>
+            <if test="activityId!=null">
+                and activity_id=#{activityId}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
 
 </mapper>

@@ -19,14 +19,17 @@ public class CommentVO implements Serializable {
     //评论id
     private Long id;
 
-    //发表者用户名
-    private String username;
-
     //评价等级
     private Integer rating;
 
     //评论内容
     private String content;
 
-    private Date createTime;
+    private LocalDateTime createTime;
+
+    private int likeCount;
+
+    private int replyCount;
+
+    private int isLike; //0表示未点赞，1表示已点赞
 }

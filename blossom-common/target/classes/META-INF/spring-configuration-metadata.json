@@ -56,7 +56,7 @@
     {
       "name": "sky.jwt.user-secret-key",
       "type": "java.lang.String",
-      "description": "用户端微信用户生成jwt令牌相关配置",
+      "description": "用户端用户生成jwt令牌相关配置",
       "sourceType": "com.blossom.properties.JwtProperties"
     },
     {

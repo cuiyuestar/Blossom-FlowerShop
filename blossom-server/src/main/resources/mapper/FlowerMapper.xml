@@ -11,7 +11,7 @@
     </insert>
 
     <select id="pageQuery" resultType="com.blossom.vo.FlowerVO">
-        select f.*,c.name as categoryName from flower f left outer join category c on d.category_id=c.id
+        select f.*,c.name as categoryName from flower f left outer join category c on f.category_id=c.id
         <where>
             <if test="name!=null">
                 and f.name like concat('%',#{name},'%')

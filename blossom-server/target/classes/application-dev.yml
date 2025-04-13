@@ -10,7 +10,7 @@ sky:
     endpoint: oss-cn-beijing.aliyuncs.com
     access-key-secret:
     access-key-id:
-    bucket-name: sky-itcast
+    bucket-name: blossom-server
   redis:
     host: localhost
     port: 6379

@@ -130,7 +130,7 @@ public class ActivityServiceImpl implements ActivityService {
                 duration.getSeconds(), TimeUnit.SECONDS, RedisConstants.INIT_RETRY_COUNT);
 
         ParticipationVO participationVO = ParticipationVO.builder()
-                .content(activity.getContant())
+                .content(activity.getContent())
                 .limitPer(activity.getLimitPer())
                 .originalPrice(activitySale.getOriginalPrice())
                 .discountPrice(activitySale.getDiscountPrice())
@@ -139,6 +139,17 @@ public class ActivityServiceImpl implements ActivityService {
                 .build();
 
         return participationVO;
+    }
+
+    /**
+     * 分页查询活动商品
+     * @param activitySalePageQueryDTO
+     * @return
+     */
+    public PageResult pageQuerySale(ActivitySalePageQueryDTO activitySalePageQueryDTO) {
+        PageHelper.startPage(activitySalePageQueryDTO.getPage(),activitySalePageQueryDTO.getPageSize());
+        Page<ActivitySale> page=activitySaleMapper.pageQuery(activitySalePageQueryDTO);
+        return new PageResult (page.getTotal(),page.getResult());
     }
 
 

@@ -1,15 +1,16 @@
 package com.blossom.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
 public class CommentDTO implements Serializable {
 
-    //评论id
     private Long id;
 
     private Long userId;
@@ -22,7 +23,10 @@ public class CommentDTO implements Serializable {
     //评论内容
     private String content;
 
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+
 
 
 }

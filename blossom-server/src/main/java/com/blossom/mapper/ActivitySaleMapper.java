@@ -3,8 +3,11 @@ package com.blossom.mapper;
 
 import com.blossom.annotation.AutoFill;
 import com.blossom.dto.ActivitySaleDTO;
+import com.blossom.dto.ActivitySalePageQueryDTO;
+import com.blossom.entity.Activity;
 import com.blossom.entity.ActivitySale;
 import com.blossom.enumeration.OperationType;
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -44,5 +47,12 @@ public interface ActivitySaleMapper {
      * @return
      */
     @Select("select * from activity_sale where activity_id=#{activityId} and flower_id=#{flowerId}")
-    ActivitySale getByActivityIdAndFlowerId(Long activityId, Long flowerId);
+    ActivitySale getByActivityIdAndFlowerId2(Long activityId, Long flowerId);
+
+    /**
+     * 分页查询活动促销鲜花
+     * @param activitySalePageQueryDTO
+     * @return
+     */
+    Page<ActivitySale> pageQuery(ActivitySalePageQueryDTO activitySalePageQueryDTO);
 }

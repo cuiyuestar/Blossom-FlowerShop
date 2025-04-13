@@ -7,6 +7,7 @@ import com.blossom.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 @Slf4j
+
 public class JwtTokenUserInterceptor implements HandlerInterceptor {
 
     @Autowired
@@ -33,6 +35,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
      * @throws Exception
      */
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         //判断当前拦截到的是Controller的方法还是其他资源
         if (!(handler instanceof HandlerMethod)) {
             //当前拦截到的不是动态方法，直接放行
@@ -45,11 +48,12 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         //2、校验令牌
         try {
             log.info("jwt校验:{}", token);
-            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserTokenName(), token);
+            Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
             Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-            log.info("当前用户id：", userId);
+            log.info("当前用户id：{}", userId);
             //将当前用户ID存入请求线程的局部变量（ThreadLocal）
             BaseContext.setCurrentId(userId);
+            log.info("BaseContext存入用户id：{}", BaseContext.getCurrentId());
             //3、通过，放行
             return true;
         } catch (Exception ex) {
@@ -57,5 +61,10 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
             response.setStatus(401);
             return false;
         }
+    }
+
+    //清理当前线程的变量
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        BaseContext.removeCurrentId();
     }
 }

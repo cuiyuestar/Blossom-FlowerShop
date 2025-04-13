@@ -10,6 +10,27 @@
         values(#{activityId},#{flowerId},#{originalPrice},#{discountPrice},#{stock},#{sale})
     </insert>
 
+    <update id="batchUpdateWithVersion">
+        <foreach collection="list" item="sale" separator=";">
+            update activity_sale
+            set stock = #{sale.stock},
+                sale = #{sale.sale},
+                version = version + 1,
+            where activity_id = #{sale.activityId}
+                and flower_id = #{sale.flowerId}
+                and version = #{sale.version} <!--校验旧版本号 -->
+        </foreach>
+    </update>
+
+    <select id="pageQuery" resultType="com.blossom.entity.ActivitySale">
+        select * from activity_sale
+        <where>
+            <if test="activityId!=null">
+                and activity_id=#{activityId}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
 
 
 </mapper>
