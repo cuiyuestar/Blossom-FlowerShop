@@ -5,8 +5,8 @@
 
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into comment(user_id,flower_id,rating,content,create_time)
-        values(#{userId},#{flowerId},#{rating},#{content},#{createTime})
+        insert into comment(user_id,flower_id,rating,content,create_time,like_count,reply_count)
+        values(#{userId},#{flowerId},#{rating},#{content},#{createTime},#{likeCount},#{replyCount})
     </insert>
 
     <select id="pageQuery" resultType="com.blossom.entity.Comment">
@@ -19,8 +19,22 @@
         order by create_time desc
     </select>
 
-    <select id="list" resultType="com.blossom.entity.Comment">
+
+    <select id="pageQueryByLikeCount" resultType="com.blossom.entity.Comment">
         select * from comment
+        <where>
+            <if test="flowerId!=null">
+                and flower_id=#{flowerId}
+            </if>
+        </where>
+        order by like_count desc
+    </select>
+
+
+
+    <select id="list" resultType="com.blossom.entity.Comment">
+        select id, rating, content, create_time,like_count,reply_count
+        from comment
         <where>
             <if test="userId!=null">
                 and user_id=#{userId}

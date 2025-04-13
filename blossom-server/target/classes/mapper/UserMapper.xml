@@ -15,9 +15,27 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        insert into user(openid,name,phone,sex,id_number,avatar,create_time)
-        values (#{openid},#{name},#{phone},#{sex},#{idNumber},#{avatar},#{createTime})
+        insert into user(openid,name,phone,sex,id_number,avatar,create_time,username,password)
+        values (#{openid},#{name},#{phone},#{sex},#{idNumber},#{avatar},#{createTime},#{username},#{password})
     </insert>
 
+    <update id="update">
+        update user
+        <set>
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="phone!=null">
+                phone = #{phone},
+            </if>
+            <if test="sex!=null">
+                sex = #{sex},
+            </if>
+            <if test="idNumber!=null">
+                id_number = #{idNumber},
+            </if>
+        </set>
+            where id = #{id}
+    </update>
 
 </mapper>

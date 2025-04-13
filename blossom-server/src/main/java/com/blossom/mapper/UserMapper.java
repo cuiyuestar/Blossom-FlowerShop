@@ -39,4 +39,19 @@ public interface UserMapper {
      */
     @Select("select * from user where id=#{userid}")
     User getById(Long userId);
+
+    /**
+     * 根据用户名查询用户
+     * @param username
+     * @return
+     */
+    @Select("select * from user where username=#{username}")
+    User getByUsername(String username);
+
+
+    /**
+     * 修改用户信息
+     * @param user
+     */
+    void update(User user);
 }

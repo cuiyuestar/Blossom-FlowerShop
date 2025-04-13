@@ -8,12 +8,10 @@ import com.blossom.mapper.ActivitySaleMapper;
 import com.blossom.utils.RedisData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +70,7 @@ public class ActivityTask {
                     ActivitySale sale = JSONUtil.toBean(redisData.getData().toString(), ActivitySale.class);
 
                     //从数据库加载当前最新版本号（保持原子性）
-                    ActivitySale dbSale = activitySaleMapper.getByActivityIdAndFlowerId(
+                    ActivitySale dbSale = activitySaleMapper.getByActivityIdAndFlowerId2(
                             sale.getActivityId(), sale.getFlowerId());
                     if (dbSale != null) {
                         sale.setVersion(dbSale.getVersion()); // 设置当前版本号

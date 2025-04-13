@@ -32,7 +32,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         //判断当前商品是否已经存在于购物车里
         ShoppingCart shoppingCart=new ShoppingCart();
         BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
-        Long userId = BaseContext.getCurrentId();//从ThreadLocal中取出userId(拦截器会拦截用户发来的token
+        //TODO：用户id暂时无法从threadLocal获取
+        //Long userId = BaseContext.getCurrentId();//从ThreadLocal中取出userId(拦截器会拦截用户发来的token
+        Long userId=4L;
         //并将其携带的userId保存到ThreadLocal)
         shoppingCart.setUserId(userId);
         List<ShoppingCart> list=shoppingCartMapper.list(shoppingCart);
@@ -62,7 +64,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      * @return
      */
     public List<ShoppingCart> showShoppingCart() {
-        //获取当前微信用户的id
+        //获取当前用户的id
         Long userId =BaseContext.getCurrentId();
         ShoppingCart shoppingCart=ShoppingCart.builder()
                 .userId(userId)
@@ -75,7 +77,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      * 清空购物车
      */
     public void cleanShoppingCart() {
-        Long userId=BaseContext.getCurrentId();
+        //TODO: 用户id暂时无法从threadLocal获取
+        //Long userId=BaseContext.getCurrentId();
+        Long userId=4L;
         shoppingCartMapper.deleteByUserId(userId);
     }
 

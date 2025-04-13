@@ -2,13 +2,9 @@ package com.blossom.service;
 
 import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
-import com.blossom.dto.FlowerDTO;
-import com.blossom.dto.FlowerPageQueryDTO;
 import com.blossom.entity.Comment;
-import com.blossom.entity.Flower;
 import com.blossom.result.PageResult;
 import com.blossom.vo.CommentVO;
-import com.blossom.vo.FlowerVO;
 
 import java.util.List;
 
@@ -36,6 +32,14 @@ public interface CommentService {
     PageResult pageQuery(CommentPageQueryDTO commentPageQueryDTO);
 
     /**
+     * 根据点赞数查询评论
+     * @param commentPageQueryDTO
+     * @return
+     */
+    PageResult pageQueryByLikeCount(CommentPageQueryDTO commentPageQueryDTO);
+
+
+    /**
      * 根据用户id查询用户自己的评论
      * @param userId
      * @return
@@ -46,4 +50,18 @@ public interface CommentService {
      * 点赞评论
      */
     void like(Long commentId);
+
+    /**
+     * 根据鲜花id查询评论
+     * @param flowerId
+     * @return
+     */
+    List<CommentVO> listByFlowerId(Long flowerId);
+
+    /**
+     * 判断用户是否点赞
+     * @param id
+     * @param currentId
+     */
+    Integer isLike(Long id, Long currentId);
 }

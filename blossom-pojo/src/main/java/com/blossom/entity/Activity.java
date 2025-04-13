@@ -1,12 +1,11 @@
 package com.blossom.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -26,7 +25,7 @@ public class Activity implements Serializable {
     private Integer status;
 
     //活动简介
-    private String contant;
+    private String content;
 
     //限购数量
     private Integer limitPer;
@@ -34,5 +33,9 @@ public class Activity implements Serializable {
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
+
+    private Long createUser;
+
+    private Long updateUser;
 
 }

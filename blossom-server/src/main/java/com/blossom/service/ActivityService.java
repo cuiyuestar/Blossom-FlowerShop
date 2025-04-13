@@ -1,9 +1,6 @@
 package com.blossom.service;
 
-import com.blossom.dto.ActivityDTO;
-import com.blossom.dto.ActivityPageQueryDTO;
-import com.blossom.dto.ActivitySaleDetailDTO;
-import com.blossom.dto.ParticipateDTO;
+import com.blossom.dto.*;
 import com.blossom.entity.Activity;
 import com.blossom.result.PageResult;
 import com.blossom.vo.ParticipationVO;
@@ -43,4 +40,11 @@ public interface ActivityService {
      * @param participateDTO
      */
     ParticipationVO participate(ParticipateDTO participateDTO);
+
+    /**
+     * 根据活动id查询活动促销商品
+     * @param activitySaleDetailDTO
+     * @return
+     */
+    PageResult pageQuerySale(ActivitySalePageQueryDTO activitySaleDetailDTO);
 }

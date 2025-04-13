@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Data
 public class ParticipateDTO implements Serializable {
 
-    private Long id;
 
     private Long userId;
 

@@ -5,6 +5,7 @@ import com.blossom.result.Result;
 import com.blossom.service.CategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController("userCategoryController")
 @RequestMapping("/user/category")
 @Api(tags = "C端-分类接口")
+@Slf4j
 public class CategoryController {
 
     @Autowired
@@ -29,6 +31,7 @@ public class CategoryController {
     @ApiOperation("查询分类")
     public Result<List<Category>> list(Integer type) {
         List<Category> list = categoryService.list(type);
+        log.info("查询分类：{}", list);
         return Result.success(list);
     }
 }

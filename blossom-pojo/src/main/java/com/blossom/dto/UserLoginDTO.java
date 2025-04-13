@@ -10,6 +10,9 @@ import java.io.Serializable;
 @Data
 public class UserLoginDTO implements Serializable {
 
-    private String code;
+    //private String code; //微信登录凭证code
+    private String username;
+
+    private String password;
 
 }

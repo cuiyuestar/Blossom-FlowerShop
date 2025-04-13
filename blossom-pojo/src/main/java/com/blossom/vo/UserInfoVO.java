@@ -11,11 +11,12 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginVO implements Serializable {
+public class UserInfoVO implements Serializable {
 
-    private Long id;
-    private String openid;
     private String username;
-    private String token;
+    private String name;
+    private String phone;
+    private String sex;
+    private String idNumber;
 
 }

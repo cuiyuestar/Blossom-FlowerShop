@@ -2,22 +2,27 @@ package com.blossom.controller.user;
 
 
 import com.blossom.constant.JwtClaimsConstant;
+import com.blossom.dto.EmployeeLoginDTO;
+import com.blossom.dto.UserInfoDTO;
 import com.blossom.dto.UserLoginDTO;
+import com.blossom.entity.Employee;
 import com.blossom.entity.User;
 import com.blossom.properties.JwtProperties;
 import com.blossom.result.Result;
 import com.blossom.service.UserService;
 import com.blossom.utils.JwtUtil;
+import com.blossom.vo.EmployeeLoginVO;
+import com.blossom.vo.UserInfoVO;
 import com.blossom.vo.UserLoginVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,30 +39,125 @@ public class UserController {
     private JwtProperties jwtProperties;
 
 
+//    /**
+//     * 微信登录
+//     * @param userLoginDTO
+//     * @return
+//     */
+//    @PostMapping("/login")
+//    @ApiOperation("微信登录")
+//    public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO){
+//        log.info("微信用户登录：{}",userLoginDTO.getCode());
+//        //微信登录
+//        User user=userService.login(userLoginDTO);
+//
+//        //生成Jwt令牌
+//        Map<String,Object> claims=new HashMap<>();
+//        claims.put(JwtClaimsConstant.USER_ID,user.getId()); //将从user对象中获取userId作为值，而“userId”作为键
+//        String token=JwtUtil.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getUserTtl(),claims);
+//
+//        //封装数据
+//        UserLoginVO userLoginVO=UserLoginVO.builder()
+//                .id(user.getId())
+//                .openid(user.getOpenid())
+//                .token(token)
+//                .build();
+//
+//        return Result.success(userLoginVO);
+//    }
+
     /**
-     * 微信登录
+     * 用户注册
+     * @param userLoginDTO
+     * @return
+     */
+    @PostMapping("/register")
+    @ApiOperation("用户注册")
+    public Result register(@RequestBody UserLoginDTO userLoginDTO){
+        log.info("用户注册：{}",userLoginDTO.getUsername());
+        User user=userService.register(userLoginDTO);
+        return Result.success();
+    }
+
+
+
+    /**
+     * 用户登录
      * @param userLoginDTO
      * @return
      */
     @PostMapping("/login")
-    @ApiOperation("微信登录")
+    @ApiOperation("用户登录")
     public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO){
-        log.info("微信用户登录：{}",userLoginDTO.getCode());
-        //微信登录
+        log.info("用户登录：{}",userLoginDTO.getUsername());
+
         User user=userService.login(userLoginDTO);
 
         //生成Jwt令牌
         Map<String,Object> claims=new HashMap<>();
         claims.put(JwtClaimsConstant.USER_ID,user.getId()); //将从user对象中获取userId作为值，而“userId”作为键
         String token=JwtUtil.createJWT(jwtProperties.getUserSecretKey(),jwtProperties.getUserTtl(),claims);
+        log.info("用户登录成功，生成Jwt令牌：{}",token);
 
         //封装数据
         UserLoginVO userLoginVO=UserLoginVO.builder()
                 .id(user.getId())
-                .openid(user.getOpenid())
+                .username(user.getUsername())
                 .token(token)
                 .build();
 
         return Result.success(userLoginVO);
+    }
+
+    /**
+     * 用户登出
+     * @param session
+     * @return
+     */
+    @PostMapping("/logout")
+    @ApiOperation("用户退出登录")
+    public Result logout(HttpSession session){
+        log.info("用户退出登录");
+        session.invalidate();  //销毁会话
+        return Result.success("登出成功");
+    }
+
+    /**
+     * 修改用户信息
+     * @param userInfoDTO
+     * @return
+     */
+    @PostMapping("/modifyInfo")
+    @ApiOperation("修改用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
+    public Result modifyInfo( UserInfoDTO userInfoDTO){
+        userService.modifyInfo(userInfoDTO);
+        return Result.success("修改成功");
+    }
+
+
+    /**
+     *查看个人信息
+     * @return
+     */
+    @GetMapping("/getUserInfo")
+    @ApiOperation("查看个人信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
+    public Result<UserInfoVO> getUserInfo(@RequestHeader("token") String token){
+        return Result.success(userService.getUserInfo());
     }
 }

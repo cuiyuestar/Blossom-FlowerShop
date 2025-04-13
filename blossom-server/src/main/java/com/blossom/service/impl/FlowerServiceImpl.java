@@ -61,7 +61,7 @@ public class FlowerServiceImpl implements FlowerService {
      */
     public PageResult pageQuery(FlowerPageQueryDTO flowerPageQueryDTO){
         //通过责任链校验传入的flowerPageQueryDTO
-        abstractChainContext.handler(FlowerChainMarkEnum.FLOWER_QUERY_FILTER.name(),flowerPageQueryDTO);
+        //abstractChainContext.handler(FlowerChainMarkEnum.FLOWER_QUERY_FILTER.name(),flowerPageQueryDTO);
 
         //PageHelper.startPage是一个对mapper层进行动态干涉的方法
         //它本身并不返回结果,而是通过干涉mapper层（拼接limit语句）,影响pageQuery方法的查询结果（只查询部分数据，减少性能开销）
