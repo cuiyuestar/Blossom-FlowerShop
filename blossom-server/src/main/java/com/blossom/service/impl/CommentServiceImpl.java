@@ -52,6 +52,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setCreateTime(LocalDateTime.now());
         comment.setLikeCount(0);
         comment.setReplyCount(0);
+        log.info("插入数据库");
         commentMapper.insert(comment);
     }
 
@@ -132,8 +133,7 @@ public class CommentServiceImpl implements CommentService {
      * 点赞评论/取消点赞
      */
     public void like(Long commentId) {
-        //Long userId=BaseContext.getCurrentId();
-        Long userId=4L;
+        Long userId=BaseContext.getCurrentId();
         UserComment history=userCommentMapper.getByCommentIdAndUserId(commentId,userId);
         //如果已经点赞，则取消点赞，删除点赞数据
         if(history!=null){

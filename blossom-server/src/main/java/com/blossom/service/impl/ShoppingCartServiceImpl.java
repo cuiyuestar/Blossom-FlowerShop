@@ -32,9 +32,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         //判断当前商品是否已经存在于购物车里
         ShoppingCart shoppingCart=new ShoppingCart();
         BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
-        //TODO：用户id暂时无法从threadLocal获取
-        //Long userId = BaseContext.getCurrentId();//从ThreadLocal中取出userId(拦截器会拦截用户发来的token
-        Long userId=4L;
+        Long userId = BaseContext.getCurrentId();//从ThreadLocal中取出userId(拦截器会拦截用户发来的token
         //并将其携带的userId保存到ThreadLocal)
         shoppingCart.setUserId(userId);
         List<ShoppingCart> list=shoppingCartMapper.list(shoppingCart);

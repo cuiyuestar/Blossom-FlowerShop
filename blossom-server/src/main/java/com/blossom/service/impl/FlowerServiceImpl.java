@@ -156,6 +156,8 @@ public class FlowerServiceImpl implements FlowerService {
                         .build()),
                 RedisConstants.CACHE_SHOP_TTL, TimeUnit.MINUTES);
 
+        log.info("缓存数据：{}",flowerList);
+
         List<FlowerVO> flowerVOList = new ArrayList<>();
         for (Flower f : flowerList) {
             FlowerVO flowerVO = new FlowerVO();
