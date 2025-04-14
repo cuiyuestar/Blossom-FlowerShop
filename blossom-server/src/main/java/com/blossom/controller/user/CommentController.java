@@ -11,6 +11,8 @@ import com.blossom.service.CommentService;
 import com.blossom.service.FlowerService;
 import com.blossom.vo.CommentVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,7 @@ public class CommentController {
     @ApiOperation("发表评论")
     public Result addComment(@RequestBody CommentDTO commentDTO) {
         commentService.addComment(commentDTO);
-        return Result.success();
+        return Result.success("评论成功");
     }
 
     /**
@@ -84,6 +86,14 @@ public class CommentController {
      */
     @GetMapping("/list-own-comment")
     @ApiOperation("查询用户自己的评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result<List<Comment>> listByUserId() {
         Long userId=BaseContext.getCurrentId();
         List<Comment> commentList= commentService.listByUserId(userId);
@@ -97,6 +107,14 @@ public class CommentController {
      */
     @PostMapping("/{commentId}")
     @ApiOperation("点赞评论/取消点赞")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result likeComment(@PathVariable Long commentId){
         commentService.like(commentId);
         return Result.success();

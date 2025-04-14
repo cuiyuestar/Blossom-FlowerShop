@@ -15,10 +15,12 @@ com\blossom\vo\OrderReportVO.class
 com\blossom\dto\ShoppingCartDTO.class
 com\blossom\dto\UserLoginDTO.class
 com\blossom\entity\Category$CategoryBuilder.class
+com\blossom\vo\ParticipationVO$ParticipationVOBuilder.class
 com\blossom\dto\OrdersSubmitDTO.class
 com\blossom\vo\FlowerItemVO$FlowerItemVOBuilder.class
 com\blossom\vo\FlowerOverViewVO$FlowerOverViewVOBuilder.class
 com\blossom\entity\User$UserBuilder.class
+com\blossom\vo\ParticipationVO.class
 com\blossom\vo\UserReportVO$UserReportVOBuilder.class
 com\blossom\dto\CategoryPageQueryDTO.class
 com\blossom\dto\OrdersPaymentDTO.class
