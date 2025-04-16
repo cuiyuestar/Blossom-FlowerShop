@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController("userFlowerController")
-@RequestMapping("/user/dish")
+@RequestMapping("/user/flower")
 @Slf4j
 @Api(tags = "C端-鲜花浏览接口")
 public class FlowerController {

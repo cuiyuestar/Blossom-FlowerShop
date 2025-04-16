@@ -61,7 +61,13 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 )
                 .excludePathPatterns("/user/category/list")// 放行分类接口，未登录状态下也能查看分类
                 .excludePathPatterns("/user/activity/page")
-                .excludePathPatterns("/user/activity/sale");
+                .excludePathPatterns("/user/activity/sale")
+                .excludePathPatterns("/user/flower/getByCategoryId")
+                .excludePathPatterns("/user/flower/page")
+                .excludePathPatterns("/user/comment/add")
+                .excludePathPatterns("/user/comment/list")
+                .excludePathPatterns("/user/activity/**");
+
     }
 
     /**

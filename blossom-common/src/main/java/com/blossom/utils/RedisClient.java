@@ -3,6 +3,7 @@ package com.blossom.utils;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
 import com.blossom.constant.RedisConstants;
 import com.blossom.entity.Flower;
@@ -70,7 +71,20 @@ public class RedisClient {
         //2.判断是否存在
         if(StrUtil.isNotBlank(Json)){
             //3.存在，则直接返回
-            return JSONUtil.toBean(Json,type);//将Json字符串转换为R类对象
+            log.info("缓存使用成功");
+            log.info("json:{}",Json);
+
+            if (Json != null && Json.trim().startsWith("[")) {
+                // 2. 使用parseArray方法解析
+                JSONArray jsonArray = JSONUtil.parseArray(Json);
+                // 3. 转换为List<Flower>
+                 List<Flower> flowers = jsonArray.toList(Flower.class);
+                 log.info("json:{}",flowers);
+                 return (R) flowers;
+            } else {
+                return JSONUtil.toBean(Json,type);//将Json字符串转换为R类对象
+            }
+
         }
         //判断命中的是否为空值,如果不是，则表明打过来是之前被redis设置为空对象的key，可以放行，否则返回错误
         if(Json!=null){
