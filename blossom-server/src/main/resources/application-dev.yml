@@ -1,18 +1,19 @@
 sky:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    host: localhost
+    host: 101.201.65.241
     port: 3306
-    database: sky_take_out
+    database: blossom
     username: root
-    password: 114514
+    password: 123456
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
     access-key-secret:
     access-key-id:
     bucket-name: blossom-server
   redis:
-    host: localhost
+    host: 101.201.65.241
+    password: v123456
     port: 6379
     database: 0
   wechat:

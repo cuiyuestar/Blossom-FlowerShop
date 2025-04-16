@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="blossom-server" />
         <module name="blossom-pojo" />
+        <module name="sky-server" />
         <module name="blossom-common" />
       </profile>
     </annotationProcessing>
@@ -18,6 +19,7 @@
       <module name="blossom-common" options="-parameters" />
       <module name="blossom-pojo" options="-parameters" />
       <module name="blossom-server" options="-parameters" />
+      <module name="sky-server" options="-parameters" />
     </option>
   </component>
 </project>
