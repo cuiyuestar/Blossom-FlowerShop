@@ -216,6 +216,7 @@ public class RedisClient {
             //双重校验（在获取锁期间，可能已被其他线程更新，因此进行二次检查）
             String doubleCheckJson = stringRedisTemplate.opsForValue().get(key);
             if (StrUtil.isNotBlank(doubleCheckJson)) {
+                //如果缓存已被其他线程更新，则直接返回缓存数据
                 return JSONUtil.toBean(doubleCheckJson, type);
             }
 

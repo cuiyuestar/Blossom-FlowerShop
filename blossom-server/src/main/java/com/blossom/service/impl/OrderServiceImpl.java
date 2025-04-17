@@ -9,11 +9,14 @@ import com.blossom.exception.AddressBookBusinessException;
 import com.blossom.framework.designPattern.designpattern.chain.AbstractChainContext;
 import com.blossom.mapper.*;
 import com.blossom.service.OrderService;
+import com.blossom.vo.OrderDetailVO;
 import com.blossom.vo.OrderSubmitVO;
+import com.blossom.vo.OrderVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -102,6 +105,57 @@ public class OrderServiceImpl implements OrderService {
 
         return orderSubmitVO;
     }
+
+
+    /**
+     * 订单查询
+     * @param userId
+     * @return
+     */
+    public List<OrderVO> list(Long userId) {
+        List<Orders> orderList = orderMapper.getByUserId(userId);
+        List<OrderVO> orderVOList=new ArrayList<>();
+            for(Orders order:orderList){
+
+                OrderVO orderVO=new OrderVO();
+                orderVO.setOrderId(order.getId());
+                orderVO.setPhone(order.getPhone());
+                orderVO.setAddress(order.getAddress());
+                orderVO.setDeliveryStatus(order.getDeliveryStatus());
+                orderVO.setDeliveryTime(order.getDeliveryTime());
+                orderVO.setUsername(order.getUserName());
+
+                orderVOList.add(orderVO);
+            }
+        return orderVOList;
+    }
+
+    /**
+     * 订单明细查询
+     * @param orderId
+     * @return
+     */
+    public List<OrderDetailVO> listOrderDetail(Long orderId) {
+        log.info("订单明细查询service层方法启动:{}",orderId);
+        List<OrderDetailVO> orderDetailVOList=new ArrayList<>();
+        List<OrderDetail> orderDetailList=orderDetailMapper.listOrderDetail(orderId);
+        for(OrderDetail orderDetail:orderDetailList){
+            OrderDetailVO orderDetailVO=new OrderDetailVO();
+
+            orderDetailVO.setNumber(orderDetail.getNumber());
+            orderDetailVO.setAmount(orderDetail.getAmount());
+            orderDetailVO.setImage(orderDetail.getImage());
+            orderDetailVO.setName(orderDetail.getName());
+
+            log.info("orderDetailVO:{}",orderDetailVO);
+
+            orderDetailVOList.add(orderDetailVO);
+
+            log.info("orderDetailVOList:{}",orderDetailVOList);
+        }
+        return orderDetailVOList;
+    }
+
 
 //
 //    /**

@@ -1,34 +1,24 @@
-package com.blossom.entity;
+package com.blossom.vo;
 
+import com.blossom.entity.Orders;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-/**
- * 订单明细
- */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDetail implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private Long id;
+public class OrderDetailVO  implements Serializable {
 
     //名称(用户真名)
     private String name;
 
-    //订单id
-    private Long orderId;
-
-    //鲜花id
-    private Long FlowerId;
+    //鲜花名称
+    private String flowerName;
 
     //数量
     private Integer number;
@@ -38,4 +28,6 @@ public class OrderDetail implements Serializable {
 
     //图片
     private String image;
+
+
 }
