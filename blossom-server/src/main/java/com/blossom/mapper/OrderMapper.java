@@ -3,6 +3,8 @@ package com.blossom.mapper;
 import com.blossom.dto.GoodsSalesDTO;
 import com.blossom.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.core.annotation.Order;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -55,5 +57,11 @@ public interface OrderMapper {
      */
     List<GoodsSalesDTO> getSalesTop10(LocalDate begin, LocalDate end);
 
-
+    /**
+     * 根据用户id查询订单
+     * @param userId
+     * @return
+     */
+    @Select("select * from orders where user_id=#{userId}")
+    List<Orders> getByUserId(Long userId);
 }

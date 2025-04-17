@@ -73,7 +73,7 @@ public class ActivityTask {
                     ActivitySale dbSale = activitySaleMapper.getByActivityIdAndFlowerId2(
                             sale.getActivityId(), sale.getFlowerId());
                     if (dbSale != null) {
-                        sale.setVersion(dbSale.getVersion()); // 设置当前版本号
+                        sale.setVersion(dbSale.getVersion()); //设置当前版本号
                         updates.add(sale); //将每种促销鲜花的数据存到updates列表中，以便后续批量更新数据库
                         validKeys.add(key);
                     }
