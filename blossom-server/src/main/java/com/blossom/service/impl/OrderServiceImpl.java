@@ -125,7 +125,10 @@ public class OrderServiceImpl implements OrderService {
                 orderVO.setDeliveryTime(order.getDeliveryTime());
                 orderVO.setUsername(order.getUserName());
 
+                log.info("orderVO:{}",orderVO);
+
                 orderVOList.add(orderVO);
+                log.info("orderVOList:{}",orderVOList);
             }
         return orderVOList;
     }
@@ -142,6 +145,7 @@ public class OrderServiceImpl implements OrderService {
         for(OrderDetail orderDetail:orderDetailList){
             OrderDetailVO orderDetailVO=new OrderDetailVO();
 
+            orderDetailVO.setId(orderDetail.getId());
             orderDetailVO.setNumber(orderDetail.getNumber());
             orderDetailVO.setAmount(orderDetail.getAmount());
             orderDetailVO.setImage(orderDetail.getImage());

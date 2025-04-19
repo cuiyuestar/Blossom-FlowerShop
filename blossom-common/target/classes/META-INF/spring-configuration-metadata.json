@@ -51,8 +51,7 @@
     {
       "name": "sky.jwt.admin-ttl",
       "type": "java.lang.Long",
-      "sourceType": "com.blossom.properties.JwtProperties",
-      "defaultValue": 0
+      "sourceType": "com.blossom.properties.JwtProperties"
     },
     {
       "name": "sky.jwt.user-secret-key",
@@ -68,8 +67,7 @@
     {
       "name": "sky.jwt.user-ttl",
       "type": "java.lang.Long",
-      "sourceType": "com.blossom.properties.JwtProperties",
-      "defaultValue": 0
+      "sourceType": "com.blossom.properties.JwtProperties"
     },
     {
       "name": "sky.wechat.api-v3-key",

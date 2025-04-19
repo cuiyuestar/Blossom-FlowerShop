@@ -77,10 +77,10 @@ public class RedisClient {
             if (Json != null && Json.trim().startsWith("[")) {
                 // 2. 使用parseArray方法解析
                 JSONArray jsonArray = JSONUtil.parseArray(Json);
-                // 3. 转换为List<Flower>
-                 List<Flower> flowers = jsonArray.toList(Flower.class);
-                 log.info("json:{}",flowers);
-                 return (R) flowers;
+                // 3. 转换为List<R>
+                 List<R> list = jsonArray.toList(type);
+                 log.info("json:{}",list);
+                 return (R) list;
             } else {
                 return JSONUtil.toBean(Json,type);//将Json字符串转换为R类对象
             }

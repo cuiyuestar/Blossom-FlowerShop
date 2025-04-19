@@ -60,6 +60,7 @@ public class OrderController {
         log.info("订单查询");
         Long userId= BaseContext.getCurrentId();
         List<OrderVO> orderVOList=orderService.list(userId);
+        log.info("订单查询:{}",orderVOList);
         return Result.success(orderVOList);
     }
 

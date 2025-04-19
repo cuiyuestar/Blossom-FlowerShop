@@ -40,10 +40,10 @@ public interface FlowerService {
 
 
     /**
-     * 修改菜品
+     * 修改鲜花
      * @param flowerhDTO
      */
-    void updateWithFlavor(FlowerDTO flowerhDTO);
+    void update(FlowerDTO flowerhDTO);
 
 
     /**

@@ -44,6 +44,13 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addInterceptor(jwtTokenAdminInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/employee/login")
+                .excludePathPatterns("/admin/employee/logout")
+                .excludePathPatterns("/admin/category","/admin/category/page","/admin/category/status/{status}")
+                .excludePathPatterns("/admin/activity")
+                .excludePathPatterns("/admin/employee","/admin/employee/save","/admin/employee/page")
+                .excludePathPatterns("/admin/employee/status/{status}")
+                .excludePathPatterns("/admin/flower","/admin/flower/list", "/admin/flower/page")
+                .excludePathPatterns("/admin/activity/create","/admin/activity/set")
                 .excludePathPatterns(
                         "/swagger-resources/**",
                         "/webjars/**",

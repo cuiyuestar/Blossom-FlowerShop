@@ -86,7 +86,7 @@ public class EmployeeController {
         log.info("新增员工：{}",employeeDTO);
         employeeService.save(employeeDTO);
         //返回添加成功（因为是插入操作，不需要返回给前端数据，所以success方法里不需要填参数）
-        return Result.success();
+        return Result.success("新增成功");
     }
 
     /**
@@ -134,6 +134,7 @@ public class EmployeeController {
     }
 
     @PutMapping
+    @ApiOperation("修改员工信息")
     public Result update(@RequestBody EmployeeDTO employeeDTO){
         log.info("修改员工信息");
         Employee employee=new Employee();
