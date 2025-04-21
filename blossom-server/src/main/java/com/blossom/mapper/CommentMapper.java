@@ -28,11 +28,11 @@ public interface CommentMapper {
 
     /**
      * 根据鲜花id查询评论
-     * @param id
+     * @param flowerId
      * @return
      */
-    @Select("select * from comment where id=#{id}")
-    Comment getById(Long id);
+    @Select("select * from comment where flower_id=#{flowerId}")
+    List<Comment> getById(Long flowerId);
 
 
 

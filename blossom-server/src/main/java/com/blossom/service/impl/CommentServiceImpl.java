@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-;
+
 
 @Service
 @Slf4j
@@ -132,8 +132,8 @@ public class CommentServiceImpl implements CommentService {
     /**
      * 点赞评论/取消点赞
      */
-    public void like(Long commentId) {
-        Long userId=BaseContext.getCurrentId();
+    public void like(Long commentId,Long userId) {
+        log.info("点赞评论请求参数: commentId={},userId={}", commentId,userId);
         UserComment history=userCommentMapper.getByCommentIdAndUserId(commentId,userId);
         //如果已经点赞，则取消点赞，删除点赞数据
         if(history!=null){
@@ -156,7 +156,9 @@ public class CommentServiceImpl implements CommentService {
      * @return
      */
     public List<CommentVO> listByFlowerId(Long flowerId) {
-        List<Comment> commentList= (List<Comment>) commentMapper.getById(flowerId);
+        log.info("根据鲜花id查询评论: {}", flowerId);
+
+        List<Comment> commentList=  commentMapper.getById(flowerId);
         List<CommentVO> list=new ArrayList<>();
         for (Comment comment : commentList) {
             CommentVO commentVO=new CommentVO();
@@ -167,6 +169,7 @@ public class CommentServiceImpl implements CommentService {
             commentVO.setReplyCount(comment.getReplyCount());
             Integer islike = isLike(comment.getId(),BaseContext.getCurrentId());
             commentVO.setIsLike(islike);
+            list.add(commentVO);
         }
         return list;
     }

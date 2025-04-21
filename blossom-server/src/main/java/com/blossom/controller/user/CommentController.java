@@ -4,6 +4,7 @@ package com.blossom.controller.user;
 import com.blossom.context.BaseContext;
 import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
+import com.blossom.dto.LikeCommentDTO;
 import com.blossom.entity.Comment;
 import com.blossom.result.PageResult;
 import com.blossom.result.Result;
@@ -80,45 +81,48 @@ public class CommentController {
     }
 
 
-    /**
-     * 查询用户自己的评论 （用户自身评论数较少，可直接返回评论集合list）
-     * @return
-     */
-    @GetMapping("/list-own-comment")
-    @ApiOperation("查询用户自己的评论")
-    @ApiImplicitParams({
-            @ApiImplicitParam(
-                    name = "token",
-                    value = "Bearer Token",
-                    required = true,
-                    paramType = "header"
-            )
-    })
-    public Result<List<Comment>> listByUserId() {
-        Long userId=BaseContext.getCurrentId();
-        List<Comment> commentList= commentService.listByUserId(userId);
-        return Result.success(commentList);
-    }
 
-    /**
-     * 点赞评论/取消点赞
-     * @param commentId
-     * @return
-     */
-    @PostMapping("/{commentId}")
-    @ApiOperation("点赞评论/取消点赞")
-    @ApiImplicitParams({
-            @ApiImplicitParam(
-                    name = "token",
-                    value = "Bearer Token",
-                    required = true,
-                    paramType = "header"
-            )
-    })
-    public Result likeComment(@PathVariable Long commentId){
-        commentService.like(commentId);
-        return Result.success();
-    }
+
+//    /**
+//     * 查询用户自己的评论 （用户自身评论数较少，可直接返回评论集合list）
+//     * @return
+//     */
+//    @GetMapping("/list-own-comment")
+//    @ApiOperation("查询用户自己的评论")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(
+//                    name = "token",
+//                    value = "Bearer Token",
+//                    required = true,
+//                    paramType = "header"
+//            )
+//    })
+//    public Result<List<Comment>> listByUserId(Long userId) {
+//        log.info("查询用户评论");
+//        List<Comment> commentList= commentService.listByUserId(userId);
+//        return Result.success(commentList);
+//    }
+
+//    /**
+//     * 点赞评论/取消点赞
+//     * @param
+//     * @return
+//     */
+//    @PostMapping("/{commentId}")
+//    @ApiOperation("点赞评论/取消点赞")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(
+//                    name = "token",
+//                    value = "Bearer Token",
+//                    required = true,
+//                    paramType = "header"
+//            )
+//    })
+//    public Result likeComment(Long commentId){
+//        Long userId=BaseContext.getCurrentId();
+//        commentService.like(commentId,userId);
+//        return Result.success();
+//    }
 
     /**
      * 根据点赞量分页查询评论

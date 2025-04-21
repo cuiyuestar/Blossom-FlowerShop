@@ -73,7 +73,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 .excludePathPatterns("/user/flower/page")
                 .excludePathPatterns("/user/comment/add")
                 .excludePathPatterns("/user/comment/list")
-                .excludePathPatterns("/user/activity/**");
+                .excludePathPatterns("/user/activity/**")
+                .excludePathPatterns("/user/comment/{flowerId}");
 
     }
 

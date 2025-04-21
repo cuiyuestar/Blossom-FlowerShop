@@ -2,13 +2,16 @@ package com.blossom.controller.user;
 
 
 import com.blossom.constant.JwtClaimsConstant;
+import com.blossom.context.BaseContext;
 import com.blossom.dto.EmployeeLoginDTO;
 import com.blossom.dto.UserInfoDTO;
 import com.blossom.dto.UserLoginDTO;
+import com.blossom.entity.Comment;
 import com.blossom.entity.Employee;
 import com.blossom.entity.User;
 import com.blossom.properties.JwtProperties;
 import com.blossom.result.Result;
+import com.blossom.service.CommentService;
 import com.blossom.service.UserService;
 import com.blossom.utils.JwtUtil;
 import com.blossom.vo.EmployeeLoginVO;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,6 +41,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private JwtProperties jwtProperties;
+    @Autowired
+    private CommentService commentService;
 
 
 //    /**
@@ -160,4 +166,52 @@ public class UserController {
     public Result<UserInfoVO> getUserInfo(@RequestHeader("token") String token){
         return Result.success(userService.getUserInfo());
     }
+
+
+    /**
+     * 查询用户自己的评论 （用户自身评论数较少，可直接返回评论集合list）
+     * @return
+     */
+    @GetMapping("/list-own-comment")
+    @ApiOperation("查询用户自己的评论")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
+    public Result<List<Comment>> listByUserId() {
+        log.info("查询用户评论");
+        Long userId= BaseContext.getCurrentId();
+        List<Comment> commentList= commentService.listByUserId(userId);
+        return Result.success(commentList);
+    }
+
+
+    /**
+     * 点赞评论/取消点赞
+     * @param
+     * @return
+     */
+    @PostMapping("/{commentId}")
+    @ApiOperation("点赞评论/取消点赞")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
+    public Result likeComment(@PathVariable  Long commentId){
+        Long userId=BaseContext.getCurrentId();
+        log.info("点赞评论commentId：{}",commentId);
+        log.info("点赞评论userId：{}",userId);
+        commentService.like(commentId,userId);
+        return Result.success();
+    }
+
+
 }
