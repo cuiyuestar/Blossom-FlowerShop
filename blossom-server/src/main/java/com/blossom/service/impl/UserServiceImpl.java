@@ -137,6 +137,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     public UserInfoVO getUserInfo() {
+        log.info("当前线程ID: {}", Thread.currentThread().getId());
+        log.info("BaseContext中的用户ID: {}", BaseContext.getCurrentId());
+
         Long userId=BaseContext.getCurrentId();
         User user=userMapper.getById(userId);
         return UserInfoVO.builder()

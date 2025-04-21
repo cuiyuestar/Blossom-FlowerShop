@@ -2,6 +2,7 @@ package com.blossom.service;
 
 import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
+import com.blossom.dto.LikeCommentDTO;
 import com.blossom.entity.Comment;
 import com.blossom.result.PageResult;
 import com.blossom.vo.CommentVO;
@@ -49,7 +50,7 @@ public interface CommentService {
     /**
      * 点赞评论
      */
-    void like(Long commentId);
+    void like(Long commentId,Long userId);
 
     /**
      * 根据鲜花id查询评论

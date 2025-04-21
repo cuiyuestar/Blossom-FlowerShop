@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 菜品管理类
+ * 鲜花管理类
  */
 @RestController
-@RequestMapping("/admin/dish")
-@Api(tags="菜品管理")
+@RequestMapping("/admin/flower")
+@Api(tags="鲜花管理")
 @Slf4j
 public class FlowerController {
 
@@ -49,7 +49,7 @@ public class FlowerController {
         因此要用分类id作为key*/
         String key="flower_"+flowerDTO.getCategoryId();
         cleanCache(key);
-        return Result.success();
+        return Result.success("新增成功");
     }
 
     /**
@@ -77,7 +77,7 @@ public class FlowerController {
         flowerService.deleteBatch(ids);
         //清除所有被删除的鲜花的缓存
         cleanCache("flower_*");
-        return Result.success();
+        return Result.success("删除成功");
     }
 
     /**
@@ -102,12 +102,11 @@ public class FlowerController {
     @ApiOperation("修改鲜花")
     public Result update(@RequestBody FlowerDTO flowerDTO){
         log.info("修改鲜花信息:{}",flowerDTO);
-        flowerService.updateWithFlavor(flowerDTO);
-
+        flowerService.update(flowerDTO);
         //将所有鲜花的缓存清空
         cleanCache("flower_*");
 
-        return Result.success();
+        return Result.success("修改成功");
     }
 
 
@@ -116,8 +115,8 @@ public class FlowerController {
      * @param categoryId
      * @return
      */
-    @GetMapping("/list")
-    @ApiOperation("根据条件查询鲜花数据")
+    //@GetMapping("/list")
+    //@ApiOperation("根据条件查询鲜花数据")
     public Result<List<Flower>> list(Long categoryId){
         List<Flower> list = flowerService.list(categoryId);
         return Result.success(list);

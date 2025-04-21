@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class OrderDetailVO  implements Serializable {
 
+    private Long id;
+
     //名称(用户真名)
     private String name;
 

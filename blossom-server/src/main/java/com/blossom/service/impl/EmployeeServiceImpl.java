@@ -48,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //密码比对
         //用md5对密码进行加密 TODO：这里不知道需不需要加密密码
-        //password=DigestUtils.md5DigestAsHex(password.getBytes());
+        password=DigestUtils.md5DigestAsHex(password.getBytes());
         if (!password.equals(employee.getPassword())) {
             //密码错误
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
@@ -136,7 +136,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void update(Employee employee) {
 //        employee.setUpdateTime(LocalDateTime.now());
 //        employee.setUpdateUser(BaseContext.getCurrentId());
-//        employeeMapper.update(employee);
+        employeeMapper.update(employee);
     }
 
 }

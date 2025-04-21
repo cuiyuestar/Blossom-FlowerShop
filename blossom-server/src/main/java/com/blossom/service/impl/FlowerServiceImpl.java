@@ -111,7 +111,7 @@ public class FlowerServiceImpl implements FlowerService {
      * 根据id修改鲜花的信息
      * @param flowerDTO
      */
-    public void updateWithFlavor(FlowerDTO flowerDTO) {
+    public void update(FlowerDTO flowerDTO) {
         Flower flower=new Flower();
         BeanUtils.copyProperties(flowerDTO,flower);
         flowerMapper.update(flower);
