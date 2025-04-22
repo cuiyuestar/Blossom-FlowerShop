@@ -59,6 +59,7 @@ public class OrderController {
     public Result<List<OrderVO>> listOrder(){
         log.info("订单查询");
         Long userId= BaseContext.getCurrentId();
+        log.info("用户id:{}",userId);
         List<OrderVO> orderVOList=orderService.list(userId);
         log.info("订单查询:{}",orderVOList);
         return Result.success(orderVOList);

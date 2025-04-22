@@ -3,6 +3,7 @@ package com.blossom.service.impl;
 import com.blossom.context.BaseContext;
 import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
+import com.blossom.dto.ListCommentDTO;
 import com.blossom.entity.Comment;
 import com.blossom.entity.UserComment;
 import com.blossom.enumeration.CommentChainMarkEnum;
@@ -152,22 +153,21 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * 根据鲜花id查询评论
-     * @param flowerId
+     * @param listCommentDTO
      * @return
      */
-    public List<CommentVO> listByFlowerId(Long flowerId) {
-        log.info("根据鲜花id查询评论: {}", flowerId);
-
-        List<Comment> commentList=  commentMapper.getById(flowerId);
+    public List<CommentVO> listComment(ListCommentDTO listCommentDTO) {
+        List<Comment> commentList=  commentMapper.getById(listCommentDTO.getFlowerId());
         List<CommentVO> list=new ArrayList<>();
         for (Comment comment : commentList) {
             CommentVO commentVO=new CommentVO();
+            commentVO.setId(comment.getId());
             commentVO.setContent(comment.getContent());
             commentVO.setCreateTime(comment.getCreateTime());
             commentVO.setLikeCount(comment.getLikeCount());
             commentVO.setRating(comment.getRating());
             commentVO.setReplyCount(comment.getReplyCount());
-            Integer islike = isLike(comment.getId(),BaseContext.getCurrentId());
+            Integer islike = isLike(comment.getId(),listCommentDTO.getUserId());
             commentVO.setIsLike(islike);
             list.add(commentVO);
         }
@@ -182,6 +182,7 @@ public class CommentServiceImpl implements CommentService {
      */
     public Integer isLike(Long commentId, Long userId) {
         UserComment userComment=userCommentMapper.getByCommentIdAndUserId(commentId,userId);
+        log.info("用户是否点赞：{}",userComment);
         if(userComment!=null) return 1;
         else return 0;
     }
