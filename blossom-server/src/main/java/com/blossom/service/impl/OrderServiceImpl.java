@@ -37,6 +37,8 @@ public class OrderServiceImpl implements OrderService {
     private ShoppingCartMapper shoppingCartMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FlowerMapper flowerMapper;
 
     private final AbstractChainContext<OrdersSubmitDTO> orderSubmitAbstractChainContext;
     private final AbstractChainContext<OrderDetail> orderDetailAbstractChainContext;
@@ -139,16 +141,20 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     public List<OrderDetailVO> listOrderDetail(Long orderId) {
-        log.info("订单明细查询service层方法启动:{}",orderId);
+
         List<OrderDetailVO> orderDetailVOList=new ArrayList<>();
         List<OrderDetail> orderDetailList=orderDetailMapper.listOrderDetail(orderId);
         for(OrderDetail orderDetail:orderDetailList){
             OrderDetailVO orderDetailVO=new OrderDetailVO();
 
+            //获取该订单详细所指向的商品的图片
+            Flower flower=flowerMapper.getById(orderDetail.getFlowerId());
+            String image=flower.getImage();
+
             orderDetailVO.setId(orderDetail.getId());
             orderDetailVO.setNumber(orderDetail.getNumber());
             orderDetailVO.setAmount(orderDetail.getAmount());
-            orderDetailVO.setImage(orderDetail.getImage());
+            orderDetailVO.setImage(image);
             orderDetailVO.setName(orderDetail.getName());
 
             log.info("orderDetailVO:{}",orderDetailVO);

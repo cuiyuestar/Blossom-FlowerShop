@@ -3,6 +3,7 @@ package com.blossom.service;
 import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
 import com.blossom.dto.LikeCommentDTO;
+import com.blossom.dto.ListCommentDTO;
 import com.blossom.entity.Comment;
 import com.blossom.result.PageResult;
 import com.blossom.vo.CommentVO;
@@ -54,10 +55,10 @@ public interface CommentService {
 
     /**
      * 根据鲜花id查询评论
-     * @param flowerId
+     * @param listCommentDTO
      * @return
      */
-    List<CommentVO> listByFlowerId(Long flowerId);
+    List<CommentVO> listComment(ListCommentDTO listCommentDTO);
 
     /**
      * 判断用户是否点赞

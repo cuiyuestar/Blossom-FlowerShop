@@ -5,6 +5,7 @@ import com.blossom.context.BaseContext;
 import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
 import com.blossom.dto.LikeCommentDTO;
+import com.blossom.dto.ListCommentDTO;
 import com.blossom.entity.Comment;
 import com.blossom.result.PageResult;
 import com.blossom.result.Result;
@@ -66,17 +67,17 @@ public class CommentController {
      * @param commentPageQueryDTO
      * @return
      */
-    @GetMapping("/list")
+    @GetMapping("/page")
     @ApiOperation("根据鲜花id查询这种花的评论")
     public Result<PageResult> list(CommentPageQueryDTO commentPageQueryDTO) {
         PageResult pageResult = commentService.pageQuery(commentPageQueryDTO);
         return Result.success(pageResult);
     }
 
-    @GetMapping("/{flowerId}")
+    @GetMapping("/list")
     @ApiOperation("根据鲜花id查询这种花的评论——展示给用户，包含是否点赞的状态，便于前端显示点赞键是否上色")
-    public Result<List<CommentVO>> listComment(@PathVariable Long flowerId){
-        List<CommentVO> commentList=commentService.listByFlowerId(flowerId);
+    public Result<List<CommentVO>> listComment(ListCommentDTO listCommentDTO){
+        List<CommentVO> commentList=commentService.listComment(listCommentDTO);
         return Result.success(commentList);
     }
 
@@ -97,9 +98,11 @@ public class CommentController {
 //                    paramType = "header"
 //            )
 //    })
-//    public Result<List<Comment>> listByUserId(Long userId) {
+//    public Result<List<Comment>> listByUserId() {
 //        log.info("查询用户评论");
+//        Long userId=BaseContext.getCurrentId();
 //        List<Comment> commentList= commentService.listByUserId(userId);
+//        log.info("用户id:{}",userId);
 //        return Result.success(commentList);
 //    }
 
