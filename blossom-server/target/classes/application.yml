@@ -17,7 +17,8 @@ spring:
     port: ${sky.redis.port}
     database: ${sky.redis.database}
 
-mybatis:
+#直接使用mybatis-plus，MyBatis-Plus 完全兼容原生配置项
+mybatis-plus:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.blossom.entity

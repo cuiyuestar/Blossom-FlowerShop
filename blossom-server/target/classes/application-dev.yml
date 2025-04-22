@@ -2,10 +2,10 @@ sky:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     host: 101.201.65.241
-    port: 3306
+    port: 3978
     database: blossom
     username: root
-    password: 123456
+    password: "@LHbyzhwl7794"
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
     access-key-secret:

@@ -4,6 +4,7 @@ package com.blossom.utils;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.blossom.constant.RedisConstants;
 import com.blossom.entity.Flower;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -170,6 +173,69 @@ public class RedisClient {
         }
     }
 
+    // 创建固定容量为10的线程池ExecutorService实例，专用于缓存重建任务的异步执行。
+    // 通过Executors工具类的工厂方法，配置核心线程数=最大线程数=10的不可扩容线程池，
+    // 采用无界队列存储任务，保证高并发场景下任务有序处理，避免资源耗尽风险。
+    private static final ExecutorService CACHE_REBUILD_EXECUTOR= Executors.newFixedThreadPool(10);
+
+    /**
+     * 使用逻辑过期方案解决缓存击穿
+     * @param keyPrefix
+     * @param id
+     * @param type
+     * @param dbFallback
+     * @param time
+     * @param unit
+     * @return
+     * @param <R>
+     * @param <ID>
+     */
+    public <R,ID> R queryWithLogicalExpire(String keyPrefix, ID id, Class<R> type, Function<ID,R> dbFallback,Long time, TimeUnit unit){
+        String key=keyPrefix+id;
+        //1.从redis中查询商铺缓存
+        String json = stringRedisTemplate.opsForValue().get(key);
+        //2.判断是否存在
+        if(StrUtil.isBlank(json)){
+            //3.不存在，直接返回
+            return null;
+        }
+        //命中，需要把json反序列化为对象
+        RedisData redisData = JSONUtil.toBean(json, RedisData.class);
+        JSONObject data = (JSONObject) redisData.getData();//本质是JSONObject，需要再次反序列化为Shop对象
+        R r = JSONUtil.toBean(data, type);
+        LocalDateTime expireTime = redisData.getExpireTime();
+        //判断是否过期
+        if(expireTime.isAfter(LocalDateTime.now())){
+            //未过期，直接返回店铺信息
+            return r;
+        }
+        //已过期，需要缓存重建
+        //缓存重建
+        //获取互斥锁
+        String lockKey=RedisConstants.LOCK_SHOP_KEY+id;
+        //判断是否获取锁成功
+        boolean isLock = tryLock(lockKey);
+        if(isLock&&!expireTime.isAfter(LocalDateTime.now())){
+            //成功，开启独立线程，实现缓存重建
+            CACHE_REBUILD_EXECUTOR.submit(()->{
+                //重建缓存
+                try {
+                    //先查数据库
+                    R r1 = dbFallback.apply(id);
+                    //写入redis
+                    this.setWithLogicalExpire(key,r1,time,unit);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    //释放锁
+                    unLock(lockKey);
+                }
+            });
+        }
+        //返回过期的商铺信息
+        return r;
+    }
+
 
     /**
      * 互斥锁解决缓存击穿问题 （双重校验锁 + 递归深度约束）
@@ -238,13 +304,6 @@ public class RedisClient {
             unLock(lockKey);
         }
     }
-
-
-
-
-
-
-
 
     //获取锁
     private boolean tryLock(String key){ //这里的key是自定义的锁key
