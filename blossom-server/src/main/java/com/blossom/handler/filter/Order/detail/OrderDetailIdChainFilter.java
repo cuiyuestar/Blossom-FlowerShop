@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * 鲜花分页查询请求校验处理器
+ * 订单详情处理器
  */
 @Component
 @RequiredArgsConstructor

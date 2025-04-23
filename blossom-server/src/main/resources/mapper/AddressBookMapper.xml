@@ -35,6 +35,16 @@
             <if test="label != null">
                 label = #{label},
             </if>
+            <if test="cityName != null">
+                city_name = #{cityName},
+            </if>
+            <if test="districtName != null">
+                district_name = #{districtName},
+            </if>
+            <if test="provinceName != null">
+                province_name = #{provinceName},
+            </if>
+
             <if test="isDefault != null">
                 is_default = #{isDefault},
             </if>

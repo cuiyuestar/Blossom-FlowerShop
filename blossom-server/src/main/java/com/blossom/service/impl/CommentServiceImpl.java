@@ -2,6 +2,7 @@ package com.blossom.service.impl;
 
 import com.blossom.context.BaseContext;
 import com.blossom.dto.CommentDTO;
+import com.blossom.dto.CommentDeleteDTO;
 import com.blossom.dto.CommentPageQueryDTO;
 import com.blossom.dto.ListCommentDTO;
 import com.blossom.entity.Comment;
@@ -59,11 +60,11 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * 删除评论
-     * @param commentId
+     * @param commentDeleteDTO
      */
-    public void deleteComment(Long commentId) {
-        Long userId = BaseContext.getCurrentId(); //获取用户id
-        commentMapper.deleteByIdAndUserId(commentId,userId);
+    public void deleteComment(CommentDeleteDTO commentDeleteDTO) {
+        //Long userId = BaseContext.getCurrentId(); //获取用户id
+        commentMapper.deleteByIdAndUserId(commentDeleteDTO.getCommentId(),commentDeleteDTO.getUserId());
     }
 
     /**

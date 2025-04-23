@@ -36,7 +36,7 @@ public interface FlowerService {
      * @param id
      * @return
      */
-    FlowerVO getByIdWithFlavor(Long id);
+    FlowerVO getById(Long id);
 
 
     /**

@@ -97,7 +97,7 @@ public class ActivityController {
         List<ActivitySaleVO> activitySaleVOList=new ArrayList<>();
         for(ActivitySale activitySale:sales){
             Long flowerId=activitySale.getFlowerId();
-            FlowerVO flowerVO=flowerService.getByIdWithFlavor(flowerId);
+            FlowerVO flowerVO=flowerService.getById(flowerId);
 
             ActivitySaleVO activitySaleVO=new ActivitySaleVO();
             activitySaleVO.setName(flowerVO.getName());

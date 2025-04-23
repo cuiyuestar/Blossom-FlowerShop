@@ -89,7 +89,7 @@ public class FlowerController {
     @ApiOperation("根据id查询鲜花")
     public Result<FlowerVO> getById(@PathVariable  Long id){
         log.info("根据id查询鲜花:{}",id);
-        FlowerVO flowerVO=flowerService.getByIdWithFlavor(id);
+        FlowerVO flowerVO=flowerService.getById(id);
         return Result.success(flowerVO);
     }
 

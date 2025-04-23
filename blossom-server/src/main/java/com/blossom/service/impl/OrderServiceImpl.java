@@ -65,6 +65,8 @@ public class OrderServiceImpl implements OrderService {
         if(shoppingCartList==null||shoppingCartList.size()==0){
             throw new AddressBookBusinessException(MessageConstant.SHOPPING_CART_IS_NULL);
         }
+
+        log.info("即将创建订单");
         //创建订单
         Orders orders=new Orders();
         BeanUtils.copyProperties(ordersSubmitDTO,orders);
@@ -84,13 +86,19 @@ public class OrderServiceImpl implements OrderService {
         for(ShoppingCart cart:shoppingCartList){ //遍历购物车集合里的商品数据
             OrderDetail orderDetail=new OrderDetail();
             BeanUtils.copyProperties(cart,orderDetail);
+            String userName=userMapper.getById(userId).getName();
+            orderDetail.setName(userName);
 
-            //责任链校验订单明细数据
-            orderDetailAbstractChainContext.handler(OrderChainMarkEnum.ORDER_DETAIL_FILTER.name(),orderDetail);
 
             orderDetail.setOrderId(orders.getId()); //设置订单明细所关联的订单的id
             orderDetailList.add(orderDetail);
+
+            //责任链校验订单明细数据
+            orderDetailAbstractChainContext.handler(OrderChainMarkEnum.ORDER_DETAIL_FILTER.name(),orderDetail);
         }
+
+        log.info("即将插入订单明细表");
+
         //将多个订单明细批量插入
         orderDetailMapper.insertBatch(orderDetailList);
 
@@ -100,13 +108,13 @@ public class OrderServiceImpl implements OrderService {
         //封装VO返回结果
         OrderSubmitVO orderSubmitVO=OrderSubmitVO.builder()
                 .id(orders.getId())
-                .orderAmount(orders.getAmount())
-                .orderTime(orders.getOrderTime())
-                .orderNumber(orders.getNumber())
-                .build();
+            .orderAmount(orders.getAmount())
+            .orderTime(orders.getOrderTime())
+            .orderNumber(orders.getNumber())
+            .build();
 
         return orderSubmitVO;
-    }
+}
 
 
     /**
@@ -123,8 +131,8 @@ public class OrderServiceImpl implements OrderService {
                 orderVO.setOrderId(order.getId());
                 orderVO.setPhone(order.getPhone());
                 orderVO.setAddress(order.getAddress());
-                orderVO.setDeliveryStatus(order.getDeliveryStatus());
-                orderVO.setDeliveryTime(order.getDeliveryTime());
+                orderVO.setDeliveryStatus(order.getPayStatus());
+                orderVO.setOrderTime(order.getOrderTime());
                 orderVO.setUsername(order.getUserName());
 
                 log.info("orderVO:{}",orderVO);
@@ -150,11 +158,13 @@ public class OrderServiceImpl implements OrderService {
             //获取该订单详细所指向的商品的图片
             Flower flower=flowerMapper.getById(orderDetail.getFlowerId());
             String image=flower.getImage();
+            String flowerName=flower.getName();
 
             orderDetailVO.setId(orderDetail.getId());
             orderDetailVO.setNumber(orderDetail.getNumber());
             orderDetailVO.setAmount(orderDetail.getAmount());
             orderDetailVO.setImage(image);
+            orderDetailVO.setFlowerName(flowerName);
             orderDetailVO.setName(orderDetail.getName());
 
             log.info("orderDetailVO:{}",orderDetailVO);

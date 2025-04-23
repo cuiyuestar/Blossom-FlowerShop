@@ -5,9 +5,9 @@
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into orders
-        (id, number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark, phone, address, consignee, cancel_reason, rejection_reason, cancel_time, estimated_delivery_time, delivery_status, delivery_time, pack_amount, tableware_number, tableware_status)
+        (number, status, user_id, address_book_id, order_time, checkout_time, pay_method, pay_status, amount, remark, phone, address, consignee, cancel_reason, rejection_reason, cancel_time, estimated_delivery_time, delivery_status, delivery_time, pack_amount)
         values
-        (#{id},#{number},#{status},#{userId},#{addressBookId},#{orderTime},#{checkoutTime},#{payMethod},#{payStatus},#{amount},#{remark},#{phone},#{address},#{consignee},#{cancelReason},#{rejectionReason},#{cancelTime},#{estimatedDeliveryTime},#{deliveryStatus},#{deliveryTime},#{packAmount},#{tablewareNumber},#{tablewareStatus})
+        (#{number},#{status},#{userId},#{addressBookId},#{orderTime},#{checkoutTime},#{payMethod},#{payStatus},#{amount},#{remark},#{phone},#{address},#{consignee},#{cancelReason},#{rejectionReason},#{cancelTime},#{estimatedDeliveryTime},#{deliveryStatus},#{deliveryTime},#{packAmount})
     </insert>
 
     <update id="update">
@@ -21,8 +21,6 @@
             <if test="cancelReason != null">cancel_reason = #{cancelReason},</if>
             <if test="rejectionReason != null">rejection_reason = #{rejectionReason},</if>
             <if test="estimatedDeliveryTime != null">estimated_delivery_time = #{estimatedDeliveryTime},</if>
-            <if test="tablewareStatus != null">tableware_status = #{tablewareStatus},</if>
-            <if test="tablewareNumber != null">tableware_number = #{tablewareNumber},</if>
             <if test="packAmount != null">pack_amount = #{packAmount},</if>
             <if test="amount != null">amount = #{amount},</if>
             <if test="payMethod != null">pay_method = #{payMethod},</if>
