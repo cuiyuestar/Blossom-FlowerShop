@@ -5,6 +5,7 @@ import com.blossom.constant.RedisConstants;
 import com.blossom.entity.SeckillVoucher;
 import com.blossom.entity.Voucher;
 import com.blossom.mapper.VoucherMapper;
+import com.blossom.result.Result;
 import com.blossom.service.ISeckillVoucherService;
 import com.blossom.service.IVoucherService;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -29,6 +31,14 @@ public class VoucherServiceImpl extends ServiceImpl<VoucherMapper, Voucher> impl
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    @Override
+    public Result queryVoucherOfShop(Long shopId) {
+        // 查询优惠券信息
+        List<Voucher> vouchers = getBaseMapper().queryVoucherOfShop(shopId);
+        // 返回结果
+        return Result.success(vouchers);
+    }
+
     /**
      * 新增秒杀卷功能实现
      * @param voucher
@@ -45,7 +55,7 @@ public class VoucherServiceImpl extends ServiceImpl<VoucherMapper, Voucher> impl
         seckillVoucher.setBeginTime(voucher.getBeginTime());
         seckillVoucher.setEndTime(voucher.getEndTime());
         seckillVoucherService.save(seckillVoucher);
-        //保存秒杀库存到redis中
+        //保存秒杀库存到redis中，用户异步优化秒杀业务（lua）
         stringRedisTemplate.opsForValue().set(RedisConstants.SECKILL_STOCK_KEY +voucher.getId(),voucher.getStock().toString());
     }
 }

@@ -13,9 +13,8 @@ sky:
     bucket-name: blossom-server
   redis:
     host: 101.201.65.241
-    password: v123456
+    password: 'v123456'
     port: 6379
-    database: 0
   wechat:
     appid: wxa91ba8ae90d0cf2d
     secret: 60d0618ecd57c7557080f610e4645a1e

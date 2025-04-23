@@ -15,7 +15,16 @@ spring:
   redis:
     host: ${sky.redis.host}
     port: ${sky.redis.port}
-    database: ${sky.redis.database}
+    password: ${sky.redis.password}
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+
+  jackson:
+    default-property-inclusion: non_null # JSON处理时忽略非空字段
 
 #直接使用mybatis-plus，MyBatis-Plus 完全兼容原生配置项
 mybatis-plus:
