@@ -5,6 +5,8 @@ import com.blossom.entity.AddressBook;
 import com.blossom.result.Result;
 import com.blossom.service.AddressBookService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,14 @@ public class AddressBookController {
      */
     @GetMapping("/list")
     @ApiOperation("查询当前登录用户的所有地址信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result<List<AddressBook>> list() {
         AddressBook addressBook = new AddressBook();
         addressBook.setUserId(BaseContext.getCurrentId());
@@ -41,6 +51,14 @@ public class AddressBookController {
      */
     @PostMapping
     @ApiOperation("新增地址")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result save(@RequestBody AddressBook addressBook) {
         addressBookService.save(addressBook);
         return Result.success();
@@ -55,12 +73,19 @@ public class AddressBookController {
 
     /**
      * 根据id修改地址
-     *
      * @param addressBook
      * @return
      */
     @PutMapping
     @ApiOperation("根据id修改地址")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result update(@RequestBody AddressBook addressBook) {
         addressBookService.update(addressBook);
         return Result.success();
@@ -68,7 +93,6 @@ public class AddressBookController {
 
     /**
      * 设置默认地址
-     *
      * @param addressBook
      * @return
      */
@@ -87,6 +111,14 @@ public class AddressBookController {
      */
     @DeleteMapping
     @ApiOperation("根据id删除地址")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result deleteById(Long id) {
         addressBookService.deleteById(id);
         return Result.success();

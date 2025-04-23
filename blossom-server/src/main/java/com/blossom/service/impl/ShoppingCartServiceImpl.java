@@ -8,6 +8,7 @@ import com.blossom.entity.ShoppingCart;
 import com.blossom.mapper.FlowerMapper;
 import com.blossom.mapper.ShoppingCartMapper;
 import com.blossom.service.ShoppingCartService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@Slf4j
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
@@ -33,6 +34,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart=new ShoppingCart();
         BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
         Long userId = BaseContext.getCurrentId();//从ThreadLocal中取出userId(拦截器会拦截用户发来的token
+        log.info("当前用户id为：{}",userId);
         //并将其携带的userId保存到ThreadLocal)
         shoppingCart.setUserId(userId);
         List<ShoppingCart> list=shoppingCartMapper.list(shoppingCart);
@@ -43,18 +45,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCartMapper.updateNumberById(cart);
         }
         //如果不存在，则添加到购物车，数量默认为1（insert）
-        Long flowerId=shoppingCartDTO.getFlowerId();
-        if(flowerId!=null){
-            Flower flower=flowerMapper.getById(flowerId); //根据菜品id查询菜品对象，拿到该菜品的全部数据
-            shoppingCart.setName(flower.getName());
-            shoppingCart.setImage(flower.getImage());
-            shoppingCart.setAmount(flower.getPrice());
-        }else{
-            throw new RuntimeException("不存在此类鲜花");
+        else{
+            Long flowerId=shoppingCartDTO.getFlowerId();
+            if(flowerId!=null){
+                Flower flower=flowerMapper.getById(flowerId); //根据菜品id查询菜品对象，拿到该菜品的全部数据
+                shoppingCart.setName(flower.getName());
+                shoppingCart.setImage(flower.getImage());
+                shoppingCart.setAmount(flower.getPrice());
+            }else{
+                throw new RuntimeException("不存在此类鲜花");
+            }
+            shoppingCart.setNumber(1);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+            shoppingCartMapper.insert(shoppingCart);
         }
-        shoppingCart.setNumber(1);
-        shoppingCart.setCreateTime(LocalDateTime.now());
-        shoppingCartMapper.insert(shoppingCart);
     }
 
     /**
@@ -75,9 +79,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      * 清空购物车
      */
     public void cleanShoppingCart() {
-        //TODO: 用户id暂时无法从threadLocal获取
-        //Long userId=BaseContext.getCurrentId();
-        Long userId=4L;
+        Long userId=BaseContext.getCurrentId();
         shoppingCartMapper.deleteByUserId(userId);
     }
 

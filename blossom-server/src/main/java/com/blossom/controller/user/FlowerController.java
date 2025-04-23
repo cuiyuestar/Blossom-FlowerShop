@@ -58,4 +58,11 @@ public class FlowerController {
     }
 
 
+    @GetMapping("/getById")
+    @ApiOperation("根据id查询鲜花")
+    public Result<FlowerVO> getById(Long flowerId){
+        FlowerVO flowerVO =flowerService.getById(flowerId);
+        return Result.success(flowerVO);
+    }
+
 }

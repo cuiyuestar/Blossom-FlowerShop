@@ -100,13 +100,13 @@ public class OrderServiceImpl implements OrderService {
         //封装VO返回结果
         OrderSubmitVO orderSubmitVO=OrderSubmitVO.builder()
                 .id(orders.getId())
-                .orderAmount(orders.getAmount())
-                .orderTime(orders.getOrderTime())
-                .orderNumber(orders.getNumber())
-                .build();
+            .orderAmount(orders.getAmount())
+            .orderTime(orders.getOrderTime())
+            .orderNumber(orders.getNumber())
+            .build();
 
         return orderSubmitVO;
-    }
+}
 
 
     /**
@@ -123,8 +123,8 @@ public class OrderServiceImpl implements OrderService {
                 orderVO.setOrderId(order.getId());
                 orderVO.setPhone(order.getPhone());
                 orderVO.setAddress(order.getAddress());
-                orderVO.setDeliveryStatus(order.getDeliveryStatus());
-                orderVO.setDeliveryTime(order.getDeliveryTime());
+                orderVO.setDeliveryStatus(order.getPayStatus());
+                orderVO.setOrderTime(order.getOrderTime());
                 orderVO.setUsername(order.getUserName());
 
                 log.info("orderVO:{}",orderVO);
@@ -150,11 +150,13 @@ public class OrderServiceImpl implements OrderService {
             //获取该订单详细所指向的商品的图片
             Flower flower=flowerMapper.getById(orderDetail.getFlowerId());
             String image=flower.getImage();
+            String flowerName=flower.getName();
 
             orderDetailVO.setId(orderDetail.getId());
             orderDetailVO.setNumber(orderDetail.getNumber());
             orderDetailVO.setAmount(orderDetail.getAmount());
             orderDetailVO.setImage(image);
+            orderDetailVO.setFlowerName(flowerName);
             orderDetailVO.setName(orderDetail.getName());
 
             log.info("orderDetailVO:{}",orderDetailVO);

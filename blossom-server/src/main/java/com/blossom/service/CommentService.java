@@ -1,9 +1,6 @@
 package com.blossom.service;
 
-import com.blossom.dto.CommentDTO;
-import com.blossom.dto.CommentPageQueryDTO;
-import com.blossom.dto.LikeCommentDTO;
-import com.blossom.dto.ListCommentDTO;
+import com.blossom.dto.*;
 import com.blossom.entity.Comment;
 import com.blossom.result.PageResult;
 import com.blossom.vo.CommentVO;
@@ -21,9 +18,9 @@ public interface CommentService {
 
     /**
      * 删除评论
-     * @param commentId
+     * @param commentDeleteDTO
      */
-    void deleteComment(Long commentId);
+    void deleteComment(CommentDeleteDTO commentDeleteDTO);
 
 
     /**

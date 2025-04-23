@@ -31,5 +31,19 @@ public class OrderDetailVO  implements Serializable {
     //图片
     private String image;
 
+    //地址簿Id
+    private Long addressBookId;
+
+    //收货人
+    private String consignee;
+
+    //派送时间
+    private Integer deliveryStatus;
+
+    //派送时间
+    private LocalDateTime deliveryTime;
+
+    //打包费
+    private Integer packAmount;
 
 }

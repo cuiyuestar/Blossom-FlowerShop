@@ -2,10 +2,7 @@ package com.blossom.controller.user;
 
 
 import com.blossom.context.BaseContext;
-import com.blossom.dto.CommentDTO;
-import com.blossom.dto.CommentPageQueryDTO;
-import com.blossom.dto.LikeCommentDTO;
-import com.blossom.dto.ListCommentDTO;
+import com.blossom.dto.*;
 import com.blossom.entity.Comment;
 import com.blossom.result.PageResult;
 import com.blossom.result.Result;
@@ -52,13 +49,13 @@ public class CommentController {
 
     /**
      * 删除评论
-     * @param commentId
+     * @param
      * @return
      */
-    @DeleteMapping("/{commentId}")
+    @DeleteMapping("/delete")
     @ApiOperation("删除评论")
-    public Result deleteComment(@PathVariable Long commentId){
-        commentService.deleteComment(commentId);
+    public Result deleteComment(CommentDeleteDTO commentDeleteDTO){
+        commentService.deleteComment(commentDeleteDTO);
         return Result.success();
     }
 

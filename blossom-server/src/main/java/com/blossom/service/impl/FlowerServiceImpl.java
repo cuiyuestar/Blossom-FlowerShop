@@ -98,7 +98,7 @@ public class FlowerServiceImpl implements FlowerService {
      * @param id
      * @return
      */
-    public FlowerVO getByIdWithFlavor(Long id) {
+    public FlowerVO getById(Long id) {
         //根据id查询鲜花数据
         Flower flower =flowerMapper.getById(id);
         //将查询到的数据封装到FlowerVO中

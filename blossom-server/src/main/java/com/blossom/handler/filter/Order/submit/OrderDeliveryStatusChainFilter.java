@@ -33,7 +33,7 @@ public class OrderDeliveryStatusChainFilter implements OrderSubmitChainFilter<Or
 
     @Override
     public void handler(OrdersSubmitDTO requestParam) {
-        if(requestParam.getTablewareStatus()==null){
+        if(requestParam.getDeliveryStatus()==null){
             throw new OrderBusinessException("配送状态不能为空");
         }
     }

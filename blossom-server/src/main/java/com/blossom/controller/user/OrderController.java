@@ -37,6 +37,14 @@ public class OrderController {
      */
     @PostMapping("/submit")
     @ApiOperation("订单提交")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result submit(@RequestBody OrdersSubmitDTO ordersSubmitDTO){
         OrderSubmitVO orderSubmitVO =orderService.submit(ordersSubmitDTO);
         return Result.success(orderSubmitVO);

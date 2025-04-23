@@ -23,15 +23,19 @@ public class OrderVO extends Orders implements Serializable {
 
     private Long orderId;
 
+    //订单号
+    private String number;
+
     private String phone;
 
     private String address;
 
     private String username;
 
-    private Integer deliveryStatus;
+    private Integer payStatus;
 
-    private LocalDateTime deliveryTime;
+    private LocalDateTime orderTime;
+
 
 
 }

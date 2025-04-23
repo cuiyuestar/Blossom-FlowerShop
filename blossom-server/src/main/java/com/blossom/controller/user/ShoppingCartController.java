@@ -6,6 +6,8 @@ import com.blossom.entity.ShoppingCart;
 import com.blossom.result.Result;
 import com.blossom.service.ShoppingCartService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,14 @@ public class ShoppingCartController {
      */
     @PostMapping("/add")
     @ApiOperation("添加购物车")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result add(@RequestBody ShoppingCartDTO shoppingCartDTO){
         log.info("添加购物车，商品信息为:{}",shoppingCartDTO);
         shoppingCartService.addShoppingCart(shoppingCartDTO);
@@ -41,6 +51,14 @@ public class ShoppingCartController {
      */
     @GetMapping("/list")
     @ApiOperation("查看购物车")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result<List<ShoppingCart>> list(){
         List<ShoppingCart> list=shoppingCartService.showShoppingCart();
         return Result.success(list);
@@ -52,6 +70,14 @@ public class ShoppingCartController {
      * @return
      */
     @DeleteMapping("/clean")
+    @ApiImplicitParams({
+            @ApiImplicitParam(
+                    name = "token",
+                    value = "Bearer Token",
+                    required = true,
+                    paramType = "header"
+            )
+    })
     public Result clean(){
         shoppingCartService.cleanShoppingCart();
         return Result.success();
