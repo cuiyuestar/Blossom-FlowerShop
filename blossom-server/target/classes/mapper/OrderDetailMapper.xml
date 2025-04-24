@@ -3,10 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.blossom.mapper.OrderDetailMapper">
     <insert id="insertBatch">
-        insert into order_detail (name, image, order_id, flower_id, number, amount)
+        insert into order_detail (name, order_id, flower_id, number, amount)
         values
         <foreach collection="orderDetails" item="orderDetail" separator=",">
-            (#{orderDetail.name},#{orderDetail.image},#{orderDetail.orderId},#{orderDetail.flowerId},#{orderDetail.number},#{orderDetail.amount})
+            (#{orderDetail.name},#{orderDetail.orderId},#{orderDetail.flowerId},#{orderDetail.number},#{orderDetail.amount})
         </foreach>
     </insert>
 
