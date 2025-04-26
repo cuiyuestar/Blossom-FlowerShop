@@ -67,6 +67,25 @@ public class UserController {
 //    }
 
     /**
+     * 统计用户签到
+     * @return
+     */
+    @GetMapping("/sign/count")
+    @ApiOperation("统计用户签到")
+    public Result signCount(){
+        return userService.signCount();
+    }
+    /**
+     * 用户签到
+     * @return
+     */
+    @PostMapping("/sign")
+    @ApiOperation("用户签到")
+    public Result sign(){
+        return userService.sign();
+    }
+
+    /**
      * 用户注册
      * @param userLoginDTO
      * @return

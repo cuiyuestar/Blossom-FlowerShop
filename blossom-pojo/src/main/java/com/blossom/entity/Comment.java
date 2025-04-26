@@ -1,5 +1,6 @@
 package com.blossom.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,4 +43,9 @@ public class Comment implements Serializable {
     //回复数
     private int replyCount;
 
+    /**
+     * 是否点赞过了
+     */
+    @TableField(exist = false)
+    private Boolean isLike;
 }

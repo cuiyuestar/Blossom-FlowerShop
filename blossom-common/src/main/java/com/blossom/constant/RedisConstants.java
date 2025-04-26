@@ -32,4 +32,7 @@ public class RedisConstants {
     public static final int INIT_RETRY_COUNT = 0; // 初始缓存重建重试次数
     public static final int MAX_RETRY_COUNT = 3; // 最大缓存重建重试次数
 
+    public static final String COMMENT_LIKED_KEY = "comment:liked:";
+
+
 }

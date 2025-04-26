@@ -4,6 +4,7 @@ import com.blossom.dto.CommentDTO;
 import com.blossom.dto.CommentPageQueryDTO;
 import com.blossom.entity.Comment;
 import com.blossom.result.PageResult;
+import com.blossom.result.Result;
 import com.blossom.vo.CommentVO;
 
 import java.util.List;
@@ -45,6 +46,19 @@ public interface CommentService {
      * @return
      */
     List<Comment> listByUserId(Long userId);
+
+    /**
+     * 使用redis进行点赞评论
+     * @param id
+     */
+    Result likeCommentRedis(Long id);
+
+    /**
+     * 点赞列表查询列表
+     * @param id
+     * @return
+     */
+    Result queryCommentLikes(Long id);
 
     /**
      * 点赞评论

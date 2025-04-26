@@ -1,6 +1,7 @@
 package com.blossom.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.blossom.annotation.AutoFill;
 import com.blossom.dto.CommentPageQueryDTO;
 import com.blossom.entity.Comment;
@@ -16,7 +17,7 @@ import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 @Mapper
-public interface CommentMapper {
+public interface CommentMapper  {
 
 
     /**

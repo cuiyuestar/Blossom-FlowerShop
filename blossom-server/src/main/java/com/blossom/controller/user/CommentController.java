@@ -101,6 +101,17 @@ public class CommentController {
     }
 
     /**
+     * 使用redis进行点赞评论
+     * @param id
+     * @return
+     */
+    @PutMapping("/like/{id}")
+    @ApiOperation("点赞/取消评论（redis优化版）")
+    public Result likeCommentRedis(@PathVariable("id") Long id) {
+        return commentService.likeCommentRedis(id);
+    }
+
+    /**
      * 点赞评论/取消点赞
      * @param commentId
      * @return
@@ -120,6 +131,16 @@ public class CommentController {
         return Result.success();
     }
 
+    /**
+     * 点赞列表查询列表
+     * @param id
+     * @return
+     */
+    @GetMapping("/likes/{id}")
+    @ApiOperation("点赞查询列表")
+    public Result queryCommentLikes(@PathVariable("id")Long id){
+        return commentService.queryCommentLikes(id);
+    }
     /**
      * 根据点赞量分页查询评论
      * @param commentPageQueryDTO
